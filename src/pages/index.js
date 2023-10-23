@@ -5,6 +5,7 @@ import { ReactP5Wrapper } from "@p5-wrapper/react";
 const IndexPage = () => {
     return (
         <>
+            <h1>aaa</h1>
             <ReactP5Wrapper sketch={Sketch} />
         </>
     );
@@ -12,4 +13,8 @@ const IndexPage = () => {
 
 export default IndexPage;
 
-export const Head = () => <title>Home Page</title>;
+export const Head = () => {
+    <>
+    <title>Home Page</title>;
+    </>
+};
