@@ -1,44 +1,89 @@
 import React from "react";
 import { neko } from "../lib/neko-lib";
 
+const dots = [];
+const dotsTarget = [];
+
 export default function Sketch(p5) {
+    let dotsData;
+    p5.updateWithProps = (props) => {
+        if (props.dotsData) {
+            dotsData = props.dotsData;
+            const dotsObject = findObject(dotsData, "circle");
+            addDot(dotsObject, p5);
+        }
+    };
+
     //ToMove(startX, startY, endX, endY, frame数, 揺れ, easing)
     //
     //イージングでoutを掛けてあげると終点近くでまとまるので最後のずれの問題が収まりやすい。
 
 
-
-    const testToMove = new ToMove(
-        300,
-        300,
-        500,
-        500,
-        600,
-        5,
-        neko.Easing.easeOutSine,
-        p5
-    );
-    const test = new Ball(0.02, testToMove,p5);
-
     p5.setup = () => {
         p5.createCanvas(700, 700);
         p5.background(250);
-
     };
 
     p5.draw = () => {
         p5.background(200);
-        test.update();
-
+        for(const dt of dotsTarget){
+            dt.update();
+            dt.display();
+            //console.log("[@]",dt);
+        }
+        for(const dot of dots){
+            //dot.display();
+        }
+        
         p5.fill(100);
-
-        testToMove.display();
+        
         p5.fill(0);
-        test.display();
     };
 }
+
+function findObject(obj, word) {
+    const keys = Object.keys(obj);
+    let findObj = null;
+    for (const key of keys) {
+        if (typeof obj[key] === "object") {
+            if (key === word) {
+                findObj = obj[key];
+                return findObj;
+            } else {
+                const result = findObject(obj[key], word);
+                if (result != null) {
+                    return result;
+                }
+            }
+        }
+    }
+    return findObj;
+}
+
+function addDot(dotsObject, p5) {
+    for (const dot of dotsObject) {
+        //console.log(dot);
+        const toMove = new ToMove(
+            Number(dot._.cx),
+            Number(dot._.cy),
+            500,
+            500,
+            600,
+            10,
+            neko.Easing.easeOutSine,
+            p5
+        );
+        dots.push(toMove);
+        //console.log("[adscsdca]",dots[dots.length-1])
+    }
+    for(let i=1;i<dots.length+1;i++){
+        //console.log(dots[i]);
+        dotsTarget.push(new Ball(0.02, dots[i-1], p5));
+        //console.log(dotsTarget);
+    }
+}
 class Ball {
-    constructor(easing, toMove,p5) {
+    constructor(easing, toMove, p5) {
         this.p5 = p5;
         this.position = {
             x: toMove.fromPosition.x,
@@ -50,7 +95,7 @@ class Ball {
             y: toMove.position.y,
         };
 
-        console.log(toMove.position);
+        //console.log(toMove.position);
 
         this.easing = easing;
         this.toMove = toMove;
@@ -76,7 +121,8 @@ class Ball {
 }
 
 class ToMove {
-    constructor(fromX, fromY, toX, toY, frame, swingRange, easing,p5) {
+    constructor(fromX, fromY, toX, toY, frame, swingRange, easing, p5) {
+        console.log(fromX,fromY);
         this.p5 = p5;
         //randomwalk部分
         this.prepareFrame = Math.trunc(frame / 2);
