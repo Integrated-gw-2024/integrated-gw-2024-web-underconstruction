@@ -4,7 +4,7 @@ import { useStaticQuery, graphql } from "gatsby";
 const GetDotsData = () => {
     let data = useStaticQuery(graphql`
         query {
-            dataJson {
+            d01Json {
                 svgD01 {
                     g {
                         g {
@@ -12,11 +12,31 @@ const GetDotsData = () => {
                                 _ {
                                     cx
                                     cy
-                                    fill
-                                    r
-                                    stroke
-                                    stroke_width
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+            char01Json {
+                svg {
+                    g {
+                        circle {
+                            _ {
+                                cx
+                                cy
+                            }
+                        }
+                    }
+                }
+            }
+            char02Json {
+                svg {
+                    g {
+                        circle {
+                            _ {
+                                cx
+                                cy
                             }
                         }
                     }
@@ -26,6 +46,6 @@ const GetDotsData = () => {
     `);
 
     return data;
-}
+};
 
 export default GetDotsData;

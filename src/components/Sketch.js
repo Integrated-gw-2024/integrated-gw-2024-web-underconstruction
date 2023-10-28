@@ -9,8 +9,11 @@ export default function Sketch(p5) {
     p5.updateWithProps = (props) => {
         if (props.dotsData) {
             dotsData = props.dotsData;
-            const dotsObject = findObject(dotsData, "circle");
+            console.log(dotsData);
+            console.log(dotsData.char01Json);
+            const dotsObject = findObject(dotsData.char01Json, "circle");
             addDot(dotsObject, p5);
+            console.log(dotsObject);
         }
     };
 
@@ -29,17 +32,26 @@ export default function Sketch(p5) {
             neko.Easing.easeOutSine,
             p5
         );*/
-        let hoge = p5.random(0,p5.width);
-        let piyo = p5.random(0,p5.height);
-        for(let i=0;i<dots.length;i++){
+        let hoge = p5.random(0, p5.width);
+        let piyo = p5.random(0, p5.height);
+        
+        const dotsObject = findObject(dotsData.char02Json, "circle");
+        console.log(dotsObject[0]);
+        //addDot(dotsObject, p5);
+        for (let i = 0; i < dotsObject.length-1; i++) {
+            console.log(i)
+            const x = parseFloat(dotsObject[i]._.cx);
+            const y = parseFloat(dotsObject[i]._.cy);
+            console.log(dotsObject[i]);
+            console.log("aaa",x,y);
             const toMove = dots[i];
             const ball = dotsTarget[i];
             const duration = 600;
             const swing = 1000;
             const easing = neko.Easing.easeOutSine;
-            const toX = hoge;
-            const toY = piyo;
-            setTargetPosition(toMove, ball, duration, toX,toY ,swing, easing);
+            const toX = x;
+            const toY = y;
+            setTargetPosition(toMove, ball, duration, toX, toY, swing, easing);
         }
     };
 
@@ -47,7 +59,6 @@ export default function Sketch(p5) {
         p5.createCanvas(700, 700);
         p5.background(250);
     };
-
 
     p5.draw = () => {
         p5.background(200);
@@ -86,9 +97,10 @@ function findObject(obj, word) {
 }
 
 function addDot(dotsObject, p5) {
+    
+    console.log("[(>_<)]", dotsObject);
     for (const dot of dotsObject) {
         const offset = 100;
-        console.log(Number(dot._.cx + offset));
         const x = parseFloat(dot._.cx);
         const y = parseFloat(dot._.cy);
         const toMove = new ToMove(
@@ -108,26 +120,23 @@ function addDot(dotsObject, p5) {
     }
 }
 
-function setTargetPosition(toMove, ball, duration, toX,toY, swing, easing) {
+function setTargetPosition(toMove, ball, duration, toX, toY, swing, easing) {
     toMove.swingRage = swing;
     toMove.countFrame = 0;
     toMove.prepareFrame = Math.trunc(duration / 2);
 
-    
-
-
     toMove.position = {
         x: toMove.position.x,
-        y: toMove.position.y
-    }
+        y: toMove.position.y,
+    };
 
     toMove.fromPosition = {
         x: toMove.position.x,
-        y: toMove.position.y
+        y: toMove.position.y,
     };
     toMove.toPosition = {
         x: toX,
-        y: toY
+        y: toY,
     };
 
     toMove.tween = new neko.FrameTween(
@@ -136,7 +145,6 @@ function setTargetPosition(toMove, ball, duration, toX,toY, swing, easing) {
         duration,
         easing
     );
-
 }
 class Ball {
     constructor(easing, toMove, p5) {
