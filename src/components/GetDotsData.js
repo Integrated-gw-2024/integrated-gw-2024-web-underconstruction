@@ -12,6 +12,7 @@ const GetDotsData = () => {
                                 _ {
                                     cx
                                     cy
+                                    r
                                 }
                             }
                         }
@@ -25,6 +26,7 @@ const GetDotsData = () => {
                             _ {
                                 cx
                                 cy
+                                r
                             }
                         }
                     }
@@ -37,6 +39,7 @@ const GetDotsData = () => {
                             _ {
                                 cx
                                 cy
+                                r
                             }
                         }
                     }
