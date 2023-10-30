@@ -4,7 +4,7 @@ import { neko } from "../lib/neko-lib";
 const offset = 100;
 const dots = [];
 const dotsTarget = [];
-const duration = 600;
+const duration = 100;
 
 export default function Sketch(p5) {
     let dotsData;
@@ -24,7 +24,6 @@ export default function Sketch(p5) {
 
     p5.mousePressed = () => {
         //console.clear();
-        
 
         let dotsObject;
         if (toggle) {
@@ -62,6 +61,7 @@ export default function Sketch(p5) {
 function changeGraphic(dotsObject,p5) {
     const prevSize = dots.length;
     if (dotsObject.length > prevSize) {
+        console.log("1");
         for (let i = prevSize; i < dotsObject.length; i++) {
             const fromIndex = Math.floor(Math.random() * prevSize);
             const toSZ = parseFloat(dotsObject[i - 1]._.r);
@@ -93,14 +93,17 @@ function changeGraphic(dotsObject,p5) {
             y,
             toSZ = 0;
         if (dotsObject.length > i) {
+            console.log("2");
             x = parseFloat(dotsObject[i]._.cx);
             y = parseFloat(dotsObject[i]._.cy);
             toSZ = parseFloat(dotsObject[i]._.r);
         } else {
+            console.log("3");
             const index = Math.floor(Math.random() * dotsObject.length);
-            x = dotsObject[index]._.cx;
-            y = dotsObject[index]._.cy;
-            toSZ = dotsObject[index]._.r;
+            x = parseFloat(dotsObject[index]._.cx);
+            y = parseFloat(dotsObject[index]._.cy);
+            toSZ = parseFloat(dotsObject[index]._.r);
+            console.log(x,y);
         }
 
         const toMove = dots[i];
