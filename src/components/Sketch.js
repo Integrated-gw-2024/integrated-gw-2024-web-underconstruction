@@ -20,73 +20,22 @@ export default function Sketch(p5) {
     //
     //イージングでoutを掛けてあげると終点近くでまとまるので最後のずれの問題が収まりやすい。
 
+    let toggle = false;
+
     p5.mousePressed = () => {
-        console.clear();
-        const prevSize = dots.length;
+        //console.clear();
+        
 
-        const dotsObject = findObject(dotsData.char02Json, "circle");
-        if (dotsObject.length > prevSize) {
-            for (let i = prevSize; i < dotsObject.length; i++) {
-                const fromIndex = Math.floor(Math.random() * prevSize);
-                const toSZ = parseFloat(dotsObject[i - 1]._.r);
-                const toX = parseFloat(dotsObject[i - 1]._.cx);
-                const toY = parseFloat(dotsObject[i - 1]._.cy);
-                const fromX = parseFloat(dots[fromIndex].position.x);
-                const fromY = parseFloat(dots[fromIndex].position.y);
-                const fromSZ = parseFloat(dots[fromIndex].sz);
-                const toMove = new ToMove(
-                    fromX,
-                    fromY,
-                    toX + offset,
-                    toY + offset,
-                    duration,
-                    0.4,
-                    neko.Easing.easeOutSine,
-                    p5,
-                    fromSZ,
-                    toSZ
-                );
-                dots.push(toMove);
-            }
-            for (let i = 1; i < dots.length + 1; i++) {
-                dotsTarget.push(new Ball(0.02, dots[i - 1], p5));
-            }
+        let dotsObject;
+        if (toggle) {
+            dotsObject = findObject(dotsData.char02Json, "circle");
+        } else {
+            dotsObject = findObject(dotsData.char01Json, "circle");
         }
-        for (let i = 0; i < prevSize; i++) {
-            let x,
-                y,
-                toSZ = 0;
-            if (dotsObject.length > i) {
-                x = parseFloat(dotsObject[i]._.cx);
-                y = parseFloat(dotsObject[i]._.cy);
-                toSZ = parseFloat(dotsObject[i]._.r);
-            } else {
-                const index = Math.floor(Math.random() * dotsObject.length);
-                x = dotsObject[index]._.cx;
-                y = dotsObject[index]._.cy;
-                toSZ = dotsObject[index]._.r * 2;
-            }
+        toggle = !toggle;
 
-            const toMove = dots[i];
-            const ball = dotsTarget[i];
-            const swing = 1000;
-            const easing = neko.Easing.easeOutSine;
-            const toX = x + offset;
-            const toY = y + offset;
-            setTargetPosition(
-                toMove,
-                ball,
-                duration,
-                toX,
-                toY,
-                swing,
-                easing,
-                toSZ
-            );
-        }
-        for (const dt of dotsTarget) {
-            dt.debug();
-        }
+        changeGraphic(dotsObject,p5);
+
     };
 
     p5.setup = () => {
@@ -108,6 +57,69 @@ export default function Sketch(p5) {
 
         p5.fill(0);
     };
+}
+
+function changeGraphic(dotsObject,p5) {
+    const prevSize = dots.length;
+    if (dotsObject.length > prevSize) {
+        for (let i = prevSize; i < dotsObject.length; i++) {
+            const fromIndex = Math.floor(Math.random() * prevSize);
+            const toSZ = parseFloat(dotsObject[i - 1]._.r);
+            const toX = parseFloat(dotsObject[i - 1]._.cx);
+            const toY = parseFloat(dotsObject[i - 1]._.cy);
+            const fromX = parseFloat(dots[fromIndex].position.x);
+            const fromY = parseFloat(dots[fromIndex].position.y);
+            const fromSZ = parseFloat(dots[fromIndex].sz);
+            const toMove = new ToMove(
+                fromX,
+                fromY,
+                toX + offset,
+                toY + offset,
+                duration,
+                0.4,
+                neko.Easing.easeOutSine,
+                p5,
+                fromSZ,
+                toSZ
+            );
+            dots.push(toMove);
+        }
+        for (let i = 1; i < dots.length + 1; i++) {
+            dotsTarget.push(new Ball(0.02, dots[i - 1], p5));
+        }
+    }
+    for (let i = 0; i < prevSize; i++) {
+        let x,
+            y,
+            toSZ = 0;
+        if (dotsObject.length > i) {
+            x = parseFloat(dotsObject[i]._.cx);
+            y = parseFloat(dotsObject[i]._.cy);
+            toSZ = parseFloat(dotsObject[i]._.r);
+        } else {
+            const index = Math.floor(Math.random() * dotsObject.length);
+            x = dotsObject[index]._.cx;
+            y = dotsObject[index]._.cy;
+            toSZ = dotsObject[index]._.r;
+        }
+
+        const toMove = dots[i];
+        const ball = dotsTarget[i];
+        const swing = 1000;
+        const easing = neko.Easing.easeOutSine;
+        const toX = x + offset;
+        const toY = y + offset;
+        setTargetPosition(
+            toMove,
+            ball,
+            duration,
+            toX,
+            toY,
+            swing,
+            easing,
+            toSZ
+        );
+    }
 }
 
 function findObject(obj, word) {
