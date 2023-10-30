@@ -1,20 +1,18 @@
 import React from "react";
 import { neko } from "../lib/neko-lib";
 
-const offset = 20;
+const offset = 100;
 const dots = [];
 const dotsTarget = [];
+const duration = 600;
 
 export default function Sketch(p5) {
     let dotsData;
     p5.updateWithProps = (props) => {
         if (props.dotsData) {
             dotsData = props.dotsData;
-            console.log(dotsData);
-            console.log(dotsData.char01Json);
-            const dotsObject = findObject(dotsData.char02Json, "circle");
+            const dotsObject = findObject(dotsData.d01Json, "circle");
             addDot(dotsObject, p5);
-            console.log(dotsObject);
         }
     };
 
@@ -23,31 +21,30 @@ export default function Sketch(p5) {
     //イージングでoutを掛けてあげると終点近くでまとまるので最後のずれの問題が収まりやすい。
 
     p5.mousePressed = () => {
+        console.clear();
         const prevSize = dots.length;
-        console.log(prevSize);
 
-        const dotsObject = findObject(dotsData.char01Json, "circle");
-        console.log("[dotsObject][prevSize]", dotsObject.length, prevSize);
-        //addDot(dotsObject, p5);
+        const dotsObject = findObject(dotsData.char02Json, "circle");
         if (dotsObject.length > prevSize) {
             for (let i = prevSize; i < dotsObject.length; i++) {
                 const fromIndex = Math.floor(Math.random() * prevSize);
-                const sz = dotsObject[i - 1]._.r * 2;
+                const toSZ = parseFloat(dotsObject[i - 1]._.r);
                 const toX = parseFloat(dotsObject[i - 1]._.cx);
                 const toY = parseFloat(dotsObject[i - 1]._.cy);
-                console.log(dots[fromIndex]);
                 const fromX = parseFloat(dots[fromIndex].position.x);
                 const fromY = parseFloat(dots[fromIndex].position.y);
+                const fromSZ = parseFloat(dots[fromIndex].sz);
                 const toMove = new ToMove(
                     fromX,
                     fromY,
                     toX + offset,
                     toY + offset,
-                    600,
+                    duration,
                     0.4,
                     neko.Easing.easeOutSine,
                     p5,
-                    sz
+                    fromSZ,
+                    toSZ
                 );
                 dots.push(toMove);
             }
@@ -56,26 +53,22 @@ export default function Sketch(p5) {
             }
         }
         for (let i = 0; i < prevSize; i++) {
-            console.log(prevSize);
-            console.log(i);
             let x,
                 y,
-                sz = 0;
+                toSZ = 0;
             if (dotsObject.length > i) {
                 x = parseFloat(dotsObject[i]._.cx);
                 y = parseFloat(dotsObject[i]._.cy);
-                sz = 1;
-                console.log(dotsObject[i]);
-                console.log("aaa", x, y);
+                toSZ = parseFloat(dotsObject[i]._.r);
             } else {
                 const index = Math.floor(Math.random() * dotsObject.length);
                 x = dotsObject[index]._.cx;
                 y = dotsObject[index]._.cy;
-                sz = 1;
+                toSZ = dotsObject[index]._.r * 2;
             }
+
             const toMove = dots[i];
             const ball = dotsTarget[i];
-            const duration = 600;
             const swing = 1000;
             const easing = neko.Easing.easeOutSine;
             const toX = x + offset;
@@ -88,25 +81,25 @@ export default function Sketch(p5) {
                 toY,
                 swing,
                 easing,
-                sz
+                toSZ
             );
+        }
+        for (const dt of dotsTarget) {
+            dt.debug();
         }
     };
 
     p5.setup = () => {
         p5.createCanvas(700, 700);
-        p5.background(255,255,255,255);
+        p5.background(250);
     };
 
     p5.draw = () => {
-        p5.background(255,255,255,255);
+        p5.background(200);
         p5.fill(100);
-        p5.scale(4);
-        p5.noStroke();
         for (const dt of dotsTarget) {
             dt.update();
             dt.display();
-            //console.log("[@]",dt);
         }
         p5.fill(0, 255, 255, 100);
         for (const dot of dots) {
@@ -137,21 +130,21 @@ function findObject(obj, word) {
 }
 
 function addDot(dotsObject, p5) {
-    console.log("[(>_<)]", dotsObject);
     for (const dot of dotsObject) {
         const x = parseFloat(dot._.cx);
         const y = parseFloat(dot._.cy);
-        const sz = dot._.r * 2;
+        const fromSZ = parseFloat(dot._.r);
         const toMove = new ToMove(
             x + offset,
             y + offset,
             x + offset,
             y + offset,
-            600,
+            duration,
             0.4,
             neko.Easing.easeOutSine,
             p5,
-            sz
+            fromSZ,
+            fromSZ
         );
         dots.push(toMove);
     }
@@ -168,7 +161,7 @@ function setTargetPosition(
     toY,
     swing,
     easing,
-    sz
+    toSZ
 ) {
     toMove.swingRage = swing;
     toMove.countFrame = 0;
@@ -188,11 +181,12 @@ function setTargetPosition(
         y: toY,
     };
 
-    toMove.sz = sz;
+    toMove.fromSZ = toMove.sz;
+    toMove.toSZ = toSZ;
 
     toMove.tween = new neko.FrameTween(
-        [toMove.fromPosition.x, toMove.fromPosition.y],
-        [toMove.toPosition.x, toMove.toPosition.y],
+        [toMove.fromPosition.x, toMove.fromPosition.y, toMove.fromSZ],
+        [toMove.toPosition.x, toMove.toPosition.y, toMove.toSZ],
         duration,
         easing
     );
@@ -210,12 +204,19 @@ class Ball {
             y: toMove.position.y,
         };
 
-        this.sz = toMove.sz;
-
-        //console.log(toMove.position);
-
         this.easing = easing;
         this.toMove = toMove;
+
+        this.sz = toMove.fromSZ;
+        this.targetSZ = toMove.toSZ;
+    }
+
+    debug() {
+        //console.log("[toMove]",this.toMove);
+        //console.log("[toMove.fromSZ]",this.toMove.fromSZ);
+        //console.log("[toMove.sz]",this.toMove.sz);
+        //console.log("[this.sz]",this.sz);
+        //console.log("[this.targetSZ]",this.targetSZ);
     }
 
     update() {
@@ -230,21 +231,37 @@ class Ball {
         this.position.y =
             this.position.y +
             (this.targetPosition.y - this.position.y) * this.easing;
+        this.targetSZ = this.toMove.toSZ;
+        this.sz = this.sz + (this.targetSZ - this.sz) * this.easing;
     }
 
     display() {
-        this.p5.circle(this.position.x, this.position.y, 2);
+        this.p5.circle(this.position.x, this.position.y, this.sz * 2);
     }
 }
 
 class ToMove {
-    constructor(fromX, fromY, toX, toY, frame, swingRange, easing, p5, sz) {
-        console.log(fromX, fromY);
+    constructor(
+        fromX,
+        fromY,
+        toX,
+        toY,
+        frame,
+        swingRange,
+        easing,
+        p5,
+        fromSZ,
+        toSZ
+    ) {
         this.p5 = p5;
         //randomwalk部分
         this.prepareFrame = Math.trunc(frame / 2);
         this.countFrame = 0;
         this.swingRange = swingRange;
+
+        this.fromSZ = fromSZ;
+        this.toSZ = toSZ;
+        this.sz = fromSZ;
 
         this.fromPosition = {
             x: fromX,
@@ -274,17 +291,16 @@ class ToMove {
             y: 0,
         };
 
-        this.sz = sz;
-
         this.tween = new neko.FrameTween(
-            [fromX, fromY],
-            [toX, toY],
+            [fromX, fromY, fromSZ],
+            [toX, toY, toSZ],
             frame,
             easing
         );
         this.shuffleArray = {
             x: this.setupRandomWalkArray(),
             y: this.setupRandomWalkArray(),
+            sz: this.setupRandomWalkArray(),
         };
     }
 
@@ -311,10 +327,11 @@ class ToMove {
 
         this.position.x = this.globalPosition.x + this.localPosition.x;
         this.position.y = this.globalPosition.y + this.localPosition.y;
+        this.sz = this.tween.getValues()[2];
     }
 
     display() {
-        this.p5.circle(this.position.x, this.position.y, 2);
+        this.p5.circle(this.position.x, this.position.y, this.sz);
     }
 
     double(arr) {
