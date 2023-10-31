@@ -1,7 +1,7 @@
 import React from "react";
 import { neko } from "../lib/neko-lib";
 
-const offset = 100;
+const offset = 0;
 const dots = [];
 const dotsTarget = [];
 const duration = 100;
@@ -38,12 +38,16 @@ export default function Sketch(p5) {
     };
 
     p5.setup = () => {
-        p5.createCanvas(600, 600);
+        p5.createCanvas(p5.windowWidth, p5.windowHeight);
     };
 
     p5.draw = () => {
+        p5.translate((p5.width/2)-140, (p5.height/2)-200);
+        p5.scale(3);
         p5.clear();
-        p5.fill(100);
+        p5.fill("#FF625B");
+        p5.stroke("#FD3238");
+        p5.strokeWeight(0.8);
         for (const dt of dotsTarget) {
             dt.update();
             dt.display();
@@ -55,6 +59,10 @@ export default function Sketch(p5) {
 
         p5.fill(0);
     };
+
+    p5.windowResized = () => {
+        p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
+    }
 }
 
 function changeGraphic(dotsObject,p5) {

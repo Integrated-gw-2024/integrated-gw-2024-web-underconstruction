@@ -1,0 +1,25 @@
+//
+// foundation
+//
+
+@use "foundation/_reset";
+@use "foundation/_base";
+
+//
+// layout
+//
+
+@use "layout/_main";
+
+//
+// object/component
+//
+
+@use "object/component/_p5canvas";
+
+//
+// object/utility
+//
+
+@use "object/utility/_space";
+
