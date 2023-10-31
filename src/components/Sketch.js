@@ -38,12 +38,11 @@ export default function Sketch(p5) {
     };
 
     p5.setup = () => {
-        p5.createCanvas(700, 700);
-        p5.background(250);
+        p5.createCanvas(600, 600);
     };
 
     p5.draw = () => {
-        p5.background(200);
+        p5.clear();
         p5.fill(100);
         for (const dt of dotsTarget) {
             dt.update();
