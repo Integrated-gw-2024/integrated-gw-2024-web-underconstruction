@@ -341,6 +341,7 @@ class ToMove {
         this.tween.update();
         this.globalPosition.x = this.tween.getValues()[0];
         this.globalPosition.y = this.tween.getValues()[1];
+        //console.log(this.countFrame,this.shuffleArray);
         if (this.countFrame < this.shuffleArray.x.length) {
             this.localPosition.x += this.shuffleArray.x[this.countFrame];
             this.localPosition.y += this.shuffleArray.y[this.countFrame];
