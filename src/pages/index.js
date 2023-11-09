@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Sketch from "../components/Sketch";
-import { ReactP5Wrapper } from "@p5-wrapper/react";
 import GetDotsData from "../components/GetDotsData";
 import "../scss/style.scss";
 import { Global, css } from "@emotion/react";
@@ -8,7 +7,7 @@ import { Global, css } from "@emotion/react";
 const IndexPage = () => {
     const [dotsData, setDotsData] = useState(0);
     const d = GetDotsData();
-
+    
     useEffect(() => {
         let isMounted = true;
         if (isMounted) {
@@ -24,8 +23,6 @@ const IndexPage = () => {
             background-color: #fff0e3;
         }
     `;
-
-    console.log(dotsData);
 
     return (
         <>
@@ -84,7 +81,7 @@ const IndexPage = () => {
                     <section>KAMINOGE CAMPUS</section>
                 </section>
             </article>
-            <ReactP5Wrapper sketch={Sketch} dotsData={dotsData} />
+            <Sketch dotsData={dotsData} />
         </>
     );
 };
