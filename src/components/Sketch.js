@@ -34,7 +34,7 @@ export default function Sketch(props) {
         }
         toggle = !toggle;
 
-        w.changeGraphic(dotsObject, q5,w);
+        w.changeGraphic(dotsObject);
     };
 
     q5.setup = () => {

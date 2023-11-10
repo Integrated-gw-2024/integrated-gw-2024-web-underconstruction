@@ -2,6 +2,7 @@ import { neko } from "../../lib/neko-lib";
 import Dot from "./Dot";
 import DotTarget from "./DotTarget";
 import setTargetPosition from "./setTargetPosition";
+import genDotTarget from "./world/addDotTarget";
 
 export default class World {
     #dots;
@@ -18,33 +19,32 @@ export default class World {
         this.#isFirstCall = true;
     }
 
+    getDotsTarget(index) {
+        return this.#dotsTarget[index - 1];
+    }
+
+    getDot(index) {
+        return this.#dots[index - 1];
+    }
+
     changeGraphic(dotsObject) {
         const prevSize = this.#dotsTarget.length;
         if (dotsObject.length > prevSize) {
             for (let i = prevSize; i < dotsObject.length; i++) {
-                const fromIndex = Math.floor(Math.random() * prevSize);
-                const toSZ = parseFloat(dotsObject[i - 1]._.r);
-                const toX = parseFloat(dotsObject[i - 1]._.cx);
-                const toY = parseFloat(dotsObject[i - 1]._.cy);
-                const fromX = parseFloat(this.#dotsTarget[fromIndex].position.x);
-                const fromY = parseFloat(this.#dotsTarget[fromIndex].position.y);
-                const fromSZ = parseFloat(this.#dotsTarget[fromIndex].sz);
-                const toMove = new DotTarget(
-                    fromX,
-                    fromY,
-                    toX + this.offset,
-                    toY + this.offset,
+                const randomIndex = (Math.floor(Math.random() * prevSize))+1;
+                const currentDotTarget = this.getDotsTarget(randomIndex);
+                const dt = genDotTarget(
+                    dotsObject[i-1],
+                    currentDotTarget,
                     this.duration,
-                    0.4,
-                    neko.Easing.easeOutSine,
-                    this.#q5,
-                    fromSZ,
-                    toSZ
+                    this.#q5
                 );
-                this.#dotsTarget.push(toMove);
+                this.#dotsTarget.push(dt);
             }
             for (let i = 1; i < this.#dotsTarget.length + 1; i++) {
-                this.#dots.push(new Dot(0.02, this.#dotsTarget[i - 1], this.#q5));
+                this.#dots.push(
+                    new Dot(0.02, this.#dotsTarget[i - 1], this.#q5)
+                );
             }
         }
 
@@ -63,13 +63,15 @@ export default class World {
                 toSZ = parseFloat(dotsObject[index]._.r);
                 console.log(x, y);
             }
-    
+
             const toMove = this.#dotsTarget[i];
             const ball = this.#dots[i];
             const swing = 1000;
             const easing = neko.Easing.easeOutSine;
             const toX = x + this.offset;
             const toY = y + this.offset;
+
+            //this.#dotsTarget[i].toPosition(toX, toY);
 
             setTargetPosition(
                 toMove,
@@ -82,7 +84,7 @@ export default class World {
                 toSZ
             );
         }
-    }    
+    }
 
     addDot(dotsObject) {
         for (const dot of dotsObject) {
@@ -135,5 +137,4 @@ export default class World {
             dt.update();
         }
     }
-    
 }

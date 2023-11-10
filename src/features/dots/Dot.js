@@ -18,6 +18,13 @@ export default class Dot {
         this.targetSZ = toMove.toSZ;
     }
 
+    toPosition(x,y) {
+        this.targetPosition = {
+            x: x,
+            y: y,
+        }
+    }
+
     update() {
         this.toMove.update();
         this.targetPosition = {
