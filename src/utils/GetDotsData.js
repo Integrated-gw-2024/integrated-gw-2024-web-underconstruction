@@ -6,6 +6,9 @@ const GetDotsData = () => {
         query {
             d01Json {
                 svgD01 {
+                    _ {
+                        viewBox
+                    }
                     g {
                         g {
                             circle {
@@ -21,6 +24,9 @@ const GetDotsData = () => {
             }
             char01Json {
                 svg {
+                    _ {
+                        viewBox
+                    }
                     g {
                         circle {
                             _ {
@@ -34,6 +40,9 @@ const GetDotsData = () => {
             }
             char02Json {
                 svg {
+                    _ {
+                        viewBox
+                    }
                     g {
                         circle {
                             _ {

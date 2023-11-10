@@ -1,0 +1,60 @@
+$wBreakPoints: (
+    "xxs": "screen and (max-width: 466px)",
+    "xs": "screen and (min-width: 467px)",
+    "s": "screen and (min-width: 600px)",
+    "m": "screen and (min-width: 834px)",
+    "l": "screen and (min-width: 1024px)",
+    "xl": "screen and (min-width: 1480px)",
+    "xxl": "screen and (min-width: 1635px)",
+) !default;
+
+@mixin Width($wBreakPoint) {
+    @media #{map-get($wBreakPoints,$wBreakPoint)} {
+        @content;
+    }
+}
+
+$hBreakPoints: (
+    "xxs": "screen and (max-height: 390px)",
+    "xs": "screen and (min-height: 391px)",
+    "s": "screen and (min-height: 461px)",
+    "m": "screen and (min-height: 751px)",
+) !default;
+
+@mixin Height($hBreakPoint) {
+    @media #{map-get($hBreakPoints,$hBreakPoint)} {
+        @content;
+    }
+}
+
+$xhBreakPoints: (
+    "L": "screen and (orientation: portrait) and (min-height: 470px)",
+    "R": "screen and (orientation: landscape) and (max-height: 460px)",
+) !default;
+
+@mixin Orientation($xhBreakPoint) {
+    @media #{map-get($xhBreakPoints,$xhBreakPoint)} {
+        @content;
+    }
+}
+
+$miscBreakPoints: (
+    "BottomText": "screen and (min-height: 610px) and (min-width: 834px)",
+    "BottomTextL_610": "screen and (min-height: 610px) and (min-width: 1024px)",
+    "BottomTextXXL_610": "screen and (min-height: 610px) and (min-width: 1635px)",
+    "BottomTextM": "screen and (min-height: 610px) and (min-width: 834px)",
+    "BottomTextL": "screen and (min-height: 767px) and (min-width: 1024px)",
+    "BottomTextXXL": "screen and (min-height: 767px) and (min-width: 1635px)",
+    "betweenM_M": "screen and (max-height: 750px)",
+    "betweenM_S": "screen and (max-height: 460px)",
+    "minWidth1300": "screen and (min-width: 1300px)",
+    "minWidth1433": "screen and (min-width: 1433px)",
+    "heightS_widthS": "screen and (min-height: 751px) and (min-width: 834px)",
+    "heightXS_widthM": "screen and (max-height: 469px) and (min-width: 834px)",
+) !default;
+
+@mixin Misc($miscBreakPoint) {
+    @media #{map-get($miscBreakPoints,$miscBreakPoint)} {
+        @content;
+    }
+}

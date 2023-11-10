@@ -7,6 +7,7 @@ module.exports = {
         siteUrl: `https://www.yourdomain.tld`,
     },
     plugins: [
+        "gatsby-plugin-sass",
         "gatsby-plugin-emotion",
         "gatsby-plugin-image",
         "gatsby-plugin-sitemap",
@@ -41,6 +42,12 @@ module.exports = {
             options: {
                 name: `data`,
                 path: `./src/data/`,
+            },
+        },
+        {
+            resolve: "gatsby-plugin-robots-txt",
+            options: {
+                policy: [{ userAgent: "*", disallow: "/" }],
             },
         },
     ],
