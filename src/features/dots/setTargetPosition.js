@@ -23,6 +23,8 @@ export default function setTargetPosition(
         x: toMove.position.x,
         y: toMove.position.y,
     };
+
+    
     toMove.toPosition = {
         x: toX,
         y: toY,

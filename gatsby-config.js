@@ -44,5 +44,11 @@ module.exports = {
                 path: `./src/data/`,
             },
         },
+        {
+            resolve: "gatsby-plugin-robots-txt",
+            options: {
+                policy: [{ userAgent: "*", disallow: "/" }],
+            },
+        },
     ],
 };

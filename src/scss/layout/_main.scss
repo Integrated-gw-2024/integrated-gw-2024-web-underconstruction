@@ -1,6 +1,7 @@
 @use "../mixin/MediaQuery" as mq;
 .text {
-    font-size: 150%;
+    pointer-events: none;
+    font-size: 130%;
     margin-left: 2.3vw;
     margin-top: 4.5vh;
     display: flex;
@@ -13,7 +14,7 @@
     @include mq.Width("l"){
         margin-bottom: unset;
         gap: 7%;
-        font-size: 181%;
+        font-size: 163%;
         display: flex;
         flex-direction: row;
     }

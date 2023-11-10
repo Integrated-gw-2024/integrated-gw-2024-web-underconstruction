@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Sketch from "../components/Sketch";
-import GetDotsData from "../components/GetDotsData";
+import GetDotsData from "../utils/GetDotsData";
 import "../scss/style.scss";
 import { Global, css } from "@emotion/react";
 
@@ -90,6 +90,7 @@ export default IndexPage;
 
 export const Head = () => {
     <>
+        <meta name="robots" content="noindex" />
         <title>Home Page</title>;
     </>;
 };

@@ -6,7 +6,9 @@ export default function genDotTarget(
     dotObject,
     currentDotTarget,
     duration,
-    q5
+    offsetX,
+    offsetY,
+    q5,
 ) {
     
     const cdt = currentDotTarget;
@@ -17,12 +19,13 @@ export default function genDotTarget(
     const fromY = parseFloat(cdt.position.y);
     const fromSZ = parseFloat(cdt.sz);
 
+    console.log(offsetX,offsetY);
 
     const obj = new DotTarget(
         fromX,
         fromY,
-        toX,
-        toY,
+        toX + offsetX,
+        toY + offsetY,
         duration,
         0.4,
         neko.Easing.easeOutSine,
