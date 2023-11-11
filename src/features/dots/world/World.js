@@ -1,8 +1,8 @@
-import { neko } from "../../lib/neko-lib";
-import Dot from "./Dot";
-import DotTarget from "./DotTarget";
-import setTargetPosition from "./setTargetPosition";
-import genDotTarget from "./world/genDotTarget";
+import { neko } from "../../../lib/neko-lib";
+import Dot from "../Dot";
+import DotTarget from "../DotTarget";
+import setTargetPosition from "../setTargetPosition";
+import genDotTarget from "./genDotTarget";
 
 export default class World {
     #dots;

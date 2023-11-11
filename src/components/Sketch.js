@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Q5 from "../lib/q5.min.js";
 import findObject from "../utils/findObject";
-import World from "../features/dots/world";
+import World from "../features/dots/World/World.js";
 
 let toggle = false;
 const reg = /\b(\d+\.\d+)\b/g;
