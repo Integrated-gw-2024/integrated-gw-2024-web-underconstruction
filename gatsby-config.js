@@ -2,9 +2,10 @@
  * @type {import('gatsby').GatsbyConfig}
  */
 module.exports = {
+    pathPrefix: `/gw24`,
     siteMetadata: {
         title: `integrated-gs-web-underconstruction`,
-        siteUrl: `https://www.yourdomain.tld`,
+        siteUrl: `https://integrated.jp/gw24/`,
     },
     plugins: [
         "gatsby-plugin-sass",
