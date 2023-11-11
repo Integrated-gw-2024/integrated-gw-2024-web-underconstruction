@@ -1,4 +1,3 @@
-import World from "./World";
 import { neko } from "../../../lib/neko-lib";
 import DotTarget from "../DotTarget";
 
