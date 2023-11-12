@@ -54,6 +54,150 @@ const GetDotsData = () => {
                     }
                 }
             }
+            charTn01Json {
+                svg {
+                    _ {
+                        viewBox
+                    }
+                    g {
+                        g {
+                            circle {
+                                _ {
+                                    cx
+                                    cy
+                                    r
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            charOn01Json {
+                svg {
+                    _ {
+                        viewBox
+                    }
+                    g {
+                        g {
+                            circle {
+                                _ {
+                                    cy
+                                    cx
+                                    r
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            charGn01Json {
+                svg {
+                    _ {
+                        viewBox
+                    }
+                    g {
+                        g {
+                            circle {
+                                _ {
+                                    cx
+                                    cy
+                                    r
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            charOn02Json {
+                svg {
+                    _ {
+                        viewBox
+                    }
+                    g {
+                        g {
+                            circle {
+                                _ {
+                                    cx
+                                    cy
+                                    r
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            char2N01Json {
+                svg {
+                    _ {
+                        viewBox
+                    }
+                    g {
+                        g {
+                            ellipse {
+                                _ {
+                                    cx
+                                    cy
+                                    rx
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            char0N01Json {
+                svg {
+                    _ {
+                        viewBox
+                    }
+                    g {
+                        g {
+                            circle {
+                                _ {
+                                    cx
+                                    cy
+                                    r
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            char2N02Json {
+                svg {
+                    _ {
+                        viewBox
+                    }
+                    g {
+                        g {
+                            circle {
+                                _ {
+                                    cx
+                                    cy
+                                    r
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            char4N01Json {
+                svg {
+                    _ {
+                        viewBox
+                    }
+                    g {
+                        g {
+                            circle {
+                                _ {
+                                    cx
+                                    cy
+                                    r
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     `);
 

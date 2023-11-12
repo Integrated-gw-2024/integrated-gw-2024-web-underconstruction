@@ -11,7 +11,12 @@ export default function genDotTarget(
 ) {
     
     const cdt = currentDotTarget;
-    const toSZ = parseFloat(dotObject._.r);
+    let toSZ;
+    if(dotObject._.r){
+        toSZ = parseFloat(dotObject._.r);
+    }else{
+        toSZ = parseFloat(dotObject._.rx);
+    }
     const toX = parseFloat(dotObject._.cx);
     const toY = parseFloat(dotObject._.cy);
     const fromX = parseFloat(cdt.position.x);

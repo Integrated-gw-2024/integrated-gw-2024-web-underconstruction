@@ -36,6 +36,7 @@ export default class World {
     }
 
     changeGraphic(dotsObject) {
+        this.duration = this.#q5.random(80,200);
         const prevSize = this.#dotsTarget.length;
         if (dotsObject.length > prevSize) {
             for (let i = prevSize; i < dotsObject.length; i++) {
@@ -65,13 +66,21 @@ export default class World {
             if (dotsObject.length > i) {
                 x = parseFloat(dotsObject[i]._.cx);
                 y = parseFloat(dotsObject[i]._.cy);
-                toSZ = parseFloat(dotsObject[i]._.r);
+                if (dotsObject[i]._.r) {
+                    toSZ = parseFloat(dotsObject[i]._.r);
+                } else {
+                    toSZ = parseFloat(dotsObject[i]._.rx);
+                }
             } else {
                 const index = Math.floor(Math.random() * dotsObject.length);
                 x = parseFloat(dotsObject[index]._.cx);
                 y = parseFloat(dotsObject[index]._.cy);
-                toSZ = parseFloat(dotsObject[index]._.r);
-                console.log(x, y);
+                if (dotsObject[index]._.r) {
+                    toSZ = parseFloat(dotsObject[index]._.r);
+                } else {
+                    toSZ = parseFloat(dotsObject[index]._.rx);
+                }
+                //console.log(x, y);
             }
 
             const toMove = this.#dotsTarget[i];
@@ -100,7 +109,12 @@ export default class World {
         for (const dot of dotsObject) {
             const x = parseFloat(dot._.cx);
             const y = parseFloat(dot._.cy);
-            const fromSZ = parseFloat(dot._.r);
+            let fromSZ = 0;
+            if (dot._.r) {
+                fromSZ = parseFloat(dot._.r);
+            } else {
+                fromSZ = parseFloat(dot._.rx);
+            }
             const toMove = new DotTarget(
                 x + this.#offsetX,
                 y + this.#offsetY,

@@ -17,7 +17,7 @@ export default function Sketch(props) {
 
     const q5 = new Q5("this", sketchRef.current);
 
-    let w = new World(q5, 400);
+    let w = new World(q5, 600);
 
     console.log(w);
 
@@ -31,7 +31,7 @@ export default function Sketch(props) {
 
     if (props.dotsData) {
         dotsData = props.dotsData;
-        const name = dotsData.d01Json.svgD01;
+        const name = dotsData.charTn01Json.svg;
 
         viewBox = name._.viewBox;
         svgSize = viewBox.match(reg);
@@ -45,6 +45,7 @@ export default function Sketch(props) {
         const dotsObject = findObject(name, "circle");
         w.addDot(dotsObject, q5);
     }
+    console.log(dotsData);
 
     q5.mousePressed = () => {
         console.log(w);
@@ -86,7 +87,11 @@ export default function Sketch(props) {
         q5.pushMatrix();
         //q5.translate(q5.width / 2 - (svgWidth/2), q5.height / 2 - (svgHeight/2));
         q5.translate(q5.width / 2, q5.height / 2);
-        q5.scale(scaleFactor / 1.4);
+        if(q5.width<q5.height){
+            q5.scale(scaleFactor / 1.03);
+        }else{
+            q5.scale(scaleFactor / 1.3);
+        }
         q5.fill("#FF625B");
         q5.stroke("#FD3238");
         q5.strokeWeight(0.5);
@@ -105,9 +110,11 @@ export default function Sketch(props) {
         q5.resizeCanvas(q5.windowWidth, q5.windowHeight);
     };
 
+    let num = 1;
     const scheduleChange = () => {
         setTimeout(() => {
-            change(w, dotsData);
+            change(w, dotsData, num);
+            num < 7 ? num++ : (num = 0);
             scheduleChange();
         }, 8000);
     };
@@ -115,7 +122,7 @@ export default function Sketch(props) {
     return <div ref={sketchRef} />;
 }
 
-function change(w, dotsData) {
+function change(w, dotsData, num) {
     let svgSize = [];
     let svgWidth,
         svgHeight = 0;
@@ -125,14 +132,51 @@ function change(w, dotsData) {
 
     let dotsObject;
     let name = dotsData.d01Json.svgD01;
-    console.log(toggle);
-    if (toggle) {
-        name = dotsData.char02Json.svg;
-        dotsObject = findObject(name, "circle");
-    } else {
-        name = dotsData.char01Json.svg;
-        dotsObject = findObject(name, "circle");
+
+    console.log(num);
+
+    switch (num) {
+        case 0:
+            console.log("T");
+            name = dotsData.charTn01Json.svg;
+            break;
+        case 1:
+            console.log("O");
+            name = dotsData.charOn01Json.svg;
+            break;
+        case 2:
+            console.log("G");
+            name = dotsData.charGn01Json.svg;
+            break;
+        case 3:
+            console.log("O");
+            name = dotsData.charOn02Json.svg;
+            break;
+        case 4:
+            console.log("2");
+            name = dotsData.char2N01Json.svg;
+            break;
+        case 5:
+            console.log("0");
+            name = dotsData.char0N01Json.svg;
+            break;
+        case 6:
+            console.log("2");
+            name = dotsData.char2N02Json.svg;
+            break;
+        case 7:
+            console.log("4");
+            name = dotsData.char4N01Json.svg;
+            break;
+        default:
+            name = dotsData.d01Json.svgD01;
+            console.error("[change]", "範囲外の番号が指定されています。");
     }
+    dotsObject = findObject(name, "circle");
+    if (!dotsObject) {
+        dotsObject = findObject(name, "ellipse");
+    }
+
     toggle = !toggle;
 
     console.log(name);
