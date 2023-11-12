@@ -1,20 +1,28 @@
 @use "../mixin/MediaQuery" as mq;
+
 .text {
+    //background-color: aqua;
     pointer-events: none;
     font-size: 130%;
-    margin-left: 2.3vw;
-    margin-top: 4.5vh;
+    z-index: 999;
+    position: relative;
+
+    @include mq.Width("l") {
+        font-size: 163%;
+    }
+}
+
+.textWrapper {
     display: flex;
     flex-direction: column;
     gap: 0%;
-    z-index: 999;
     position: relative;
-    
-    
-    @include mq.Width("l"){
+    margin-left: 2.3vw;
+    padding-top: 4.5vh;
+
+    @include mq.Width("l") {
         margin-bottom: unset;
         gap: 7%;
-        font-size: 163%;
         display: flex;
         flex-direction: row;
     }
