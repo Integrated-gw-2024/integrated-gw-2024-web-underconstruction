@@ -22,9 +22,9 @@ export default function Text(props) {
                         `}
                     >
                         <p>
-                            under construction...
+                            coming soon...
                             <br />
-                            準備中....
+                            ver 0.01
                         </p>
                     </section>
                     <section>
