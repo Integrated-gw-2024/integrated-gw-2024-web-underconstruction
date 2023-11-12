@@ -89,7 +89,7 @@ export default function Sketch(props) {
         q5.scale(scaleFactor / 1.4);
         q5.fill("#FF625B");
         q5.stroke("#FD3238");
-        q5.strokeWeight(0.8);
+        q5.strokeWeight(0.5);
         w.update();
         w.display("DOTS");
         q5.popMatrix();
