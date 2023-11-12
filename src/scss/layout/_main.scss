@@ -3,7 +3,8 @@
 .text {
     //background-color: aqua;
     pointer-events: none;
-    font-size: 130%;
+    font-size: 146%;
+    letter-spacing: 0.3px;
     z-index: 999;
     position: relative;
 
@@ -22,7 +23,7 @@
 
     @include mq.Width("l") {
         margin-bottom: unset;
-        gap: 7%;
+        gap: 10%;
         display: flex;
         flex-direction: row;
     }
