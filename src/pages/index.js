@@ -26,7 +26,7 @@ const IndexPage = () => {
     })
     
     const moveToStart = () => {
-        if(window.scrollY > elmHeight*1){
+        if(window.scrollY > elmHeight*4){
             window.scroll({top:1,behavior:"instant"});
         }
     }
@@ -42,6 +42,9 @@ const IndexPage = () => {
             <Sketch dotsData={dotsData} />
             <Global styles={global} />
             <Text setElmHeight={setElmHeight}/>
+            <Text />
+            <Text />
+            <Text />
             <Text />
             <Text />
         </div>
