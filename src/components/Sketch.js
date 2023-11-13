@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Q5 from "../lib/q5.min.js";
 import findObject from "../utils/findObject";
 import World from "../features/dots/World/World.js";
+import shuffleArray from "../utils/shuffleArray.js"
 
 let toggle = false;
 const reg = /\b(\d+\.\d+)\b/g;
@@ -176,10 +177,12 @@ function change(w, dotsData, num) {
     if (!dotsObject) {
         dotsObject = findObject(name, "ellipse");
     }
+    console.log(dotsObject[0]);
+    dotsObject = shuffleArray(dotsObject);
+    console.log(dotsObject[0]);
 
     toggle = !toggle;
 
-    console.log(name);
     viewBox = name._.viewBox;
 
     svgSize = viewBox.match(reg);
