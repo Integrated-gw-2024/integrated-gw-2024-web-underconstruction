@@ -12,13 +12,14 @@ export default function Sketch(props) {
 
     let dotsData;
 
+    const graphicTransitionTime = 6000;
     //ToMove(startX, startY, endX, endY, frame数, 揺れ, easing)
     //
     //イージングでoutを掛けてあげると終点近くでまとまるので最後のずれの問題が収まりやすい。
 
     const q5 = new Q5("this", sketchRef.current);
 
-    let w = new World(q5, 600);
+    let w = new World(q5, graphicTransitionTime*0.09);
 
     console.log(w);
 
@@ -117,7 +118,7 @@ export default function Sketch(props) {
             change(w, dotsData, num);
             num < 7 ? num++ : (num = 0);
             scheduleChange();
-        }, 8000);
+        }, graphicTransitionTime);
     };
 
     return <div ref={sketchRef} />;
