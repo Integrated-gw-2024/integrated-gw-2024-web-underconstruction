@@ -64,9 +64,9 @@ export default class DotTarget {
         };
     }
 
-    setupRandomWalkArray() {
+    setupRandomWalkArray(frame = this.prepareFrame) {
         // ランダム数値配列（mapを有効にするため一旦0で初期化）
-        const deltaXArr = new Array(this.prepareFrame).fill(0).map(() => {
+        const deltaXArr = new Array(frame).fill(0).map(() => {
             return Math.random() * this.swingRange;
         });
         const deltaXArr2 = this.double(deltaXArr);
@@ -79,7 +79,7 @@ export default class DotTarget {
         this.tween.update();
         this.globalPosition.x = this.tween.getValues()[0];
         this.globalPosition.y = this.tween.getValues()[1];
-        //console.log(this.countFrame,this.shuffleArray);
+
         if (this.countFrame < this.shuffleArray.x.length) {
             this.localPosition.x += this.shuffleArray.x[this.countFrame];
             this.localPosition.y += this.shuffleArray.y[this.countFrame];
@@ -90,6 +90,7 @@ export default class DotTarget {
         this.position.y = this.globalPosition.y + this.localPosition.y;
         this.sz = this.tween.getValues()[2];
     }
+
 
     display() {
         this.q5.fill(0,0,255);
