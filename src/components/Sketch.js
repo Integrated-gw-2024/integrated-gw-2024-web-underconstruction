@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Q5 from "../lib/q5.min.js";
 import findObject from "../utils/findObject";
 import World from "../features/dots/World/World.js";
-import shuffleArray from "../utils/shuffleArray.js"
+import shuffleArray from "../utils/shuffleArray.js";
 
 let toggle = false;
 const reg = /\b(\d+\.\d+)\b/g;
@@ -19,7 +19,7 @@ export default function Sketch(props) {
 
     const q5 = new Q5("this", sketchRef.current);
 
-    let w = new World(q5, graphicTransitionTime*0.09);
+    let w = new World(q5, graphicTransitionTime * 0.09);
 
     console.log(w);
 
@@ -78,6 +78,7 @@ export default function Sketch(props) {
 
     q5.setup = () => {
         q5.createCanvas(q5.windowWidth, q5.windowHeight);
+
         if (props.dotsData) {
             scheduleChange();
         }
@@ -89,9 +90,9 @@ export default function Sketch(props) {
         q5.pushMatrix();
         //q5.translate(q5.width / 2 - (svgWidth/2), q5.height / 2 - (svgHeight/2));
         q5.translate(q5.width / 2, q5.height / 2);
-        if(q5.width<q5.height){
+        if (q5.width < q5.height) {
             q5.scale(scaleFactor / 1.03);
-        }else{
+        } else {
             q5.scale(scaleFactor / 1.3);
         }
         q5.fill("#FF625B");
@@ -108,9 +109,12 @@ export default function Sketch(props) {
         */
     };
 
-    q5.windowResized = () => {
-        q5.resizeCanvas(q5.windowWidth, q5.windowHeight);
-    };
+    const isBrowser = typeof window !== "undefined";
+    if (isBrowser) {
+        window.addEventListener("resize",()=>{
+            q5.resizeCanvas(q5.windowWidth, q5.windowHeight);
+        });
+    }
 
     let num = 1;
     const scheduleChange = () => {
