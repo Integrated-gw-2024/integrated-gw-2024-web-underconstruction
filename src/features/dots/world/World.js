@@ -85,7 +85,7 @@ export default class World {
 
             const toMove = this.#dotsTarget[i];
             const ball = this.#dots[i];
-            const swing = 1000;
+            const swing = 400;
             const easing = neko.Easing.easeOutSine;
             const toX = x + this.#offsetX;
             const toY = y + this.#offsetY;
@@ -134,14 +134,14 @@ export default class World {
         }
     }
 
-    display(displayTarget) {
+    display(displayTarget,scale) {
         if (displayTarget == "DOTS") {
             for (const dot of this.#dots) {
-                dot.display();
+                dot.display(scale);
             }
         } else if (displayTarget == "TARGET") {
             for (const dt of this.#dotsTarget) {
-                dt.display();
+                dt.display(scale);
             }
         } else {
             if (this.#isFirstCall) {
@@ -153,12 +153,12 @@ export default class World {
         }
     }
 
-    update() {
+    update(scale) {
         for (const dot of this.#dots) {
-            dot.update();
+            dot.update(scale);
         }
         for (const dt of this.#dotsTarget) {
-            dt.update();
+            dt.update(scale);
         }
     }
 }

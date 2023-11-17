@@ -86,14 +86,16 @@ export default class DotTarget {
             this.countFrame++;
         }
 
+        //this.position.x = (this.q5.mouseX-(this.q5.width/2))*0.09;
+        //this.position.y =  (this.q5.mouseY-(this.q5.height/2))*0.09;
+
         this.position.x = this.globalPosition.x + this.localPosition.x;
         this.position.y = this.globalPosition.y + this.localPosition.y;
         this.sz = this.tween.getValues()[2];
     }
 
-
     display() {
-        this.q5.fill(0,0,255);
+        this.q5.fill(0, 0, 255);
         this.q5.circle(this.position.x, this.position.y, this.sz);
     }
 
