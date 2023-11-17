@@ -5,6 +5,7 @@ import World from "../features/dots/World/World.js";
 import shuffleArray from "../utils/shuffleArray.js";
 import { neko } from "../lib/neko-lib.js";
 import GetColorSchemes from "../utils/GetColorSchemes.js";
+import ColorSchemes from "../utils/ColorSchemes.js";
 
 let toggle = false;
 const reg = /\b(\d+\.\d+)\b/g;
@@ -13,7 +14,7 @@ let num = 1;
 export default function Sketch(props) {
     let sketchRef = useRef();
     const d = GetColorSchemes();
-    const colorSchemes = d.colorSchemesJson.colors;
+    const colors = d.colorSchemesJson.colors;
 
     useEffect(() => {
         let dotsData;
@@ -67,15 +68,9 @@ export default function Sketch(props) {
             }
         };
 
-        const index = Math.floor(Math.random() * colorSchemes.length);
-        const fillColor = colorSchemes[index].fill;
-        const strokeColor = colorSchemes[index].stroke;
-        const bgColor = colorSchemes[index].background;
-        let prevCol = {
-            fill: q5.color(fillColor.r, fillColor.g, fillColor.b),
-            stroke: q5.color(strokeColor.r, strokeColor.g, strokeColor.b),
-            background: q5.color(bgColor.r, bgColor.g, bgColor.b),
-        };
+        const index = Math.floor(Math.random() * colors.length);
+        
+        let prevCol = ColorSchemes(colors[index],q5);
         let nowCol = prevCol;
 
         let amt = new neko.FrameTween(0, 1, 100, neko.Easing.easeOutSine);
@@ -133,21 +128,9 @@ export default function Sketch(props) {
 
             window.addEventListener("scrollback", () => {
                 prevCol = nowCol;
+                const index = Math.floor(Math.random() * colors.length);
+                nowCol = ColorSchemes(colors[index],q5)
                 amt = new neko.FrameTween(0, 1, 100, neko.Easing.easeOutSine);
-
-                const index = Math.floor(Math.random() * colorSchemes.length);
-                const fillColor = colorSchemes[index].fill;
-                const strokeColor = colorSchemes[index].stroke;
-                const bgColor = colorSchemes[index].background;
-                nowCol = {
-                    fill: q5.color(fillColor.r, fillColor.g, fillColor.b),
-                    stroke: q5.color(
-                        strokeColor.r,
-                        strokeColor.g,
-                        strokeColor.b
-                    ),
-                    background: q5.color(bgColor.r, bgColor.g, bgColor.b),
-                };
             });
         }
 
