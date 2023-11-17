@@ -10,6 +10,8 @@ const IndexPage = () => {
     const [elmHeight, setElmHeight] = useState(0);
     const d = GetDotsData();
 
+    const scrollEvent = new CustomEvent("scrollback");
+
     useEffect(() => {
         let isMounted = true;
         if (isMounted) {
@@ -20,16 +22,20 @@ const IndexPage = () => {
         };
     }, []);
 
-    useEffect(()=>{
-        window.addEventListener("scroll", moveToStart);
-        return()=> window.removeEventListener("scroll",moveToStart);
-    })
-    
-    const moveToStart = () => {
-        if(window.scrollY > elmHeight*4){
-            window.scroll({top:1,behavior:"instant"});
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            window.addEventListener("scroll", moveToStart);
+            return () => window.removeEventListener("scroll", moveToStart);
         }
-    }
+        return () => null;
+    });
+
+    const moveToStart = () => {
+        if (window.scrollY > elmHeight * 4) {
+            window.scroll({ top: 1, behavior: "instant" });
+            window.dispatchEvent(scrollEvent);
+        }
+    };
 
     const global = css`
         body {
@@ -39,9 +45,9 @@ const IndexPage = () => {
 
     return (
         <div>
-            <Sketch dotsData={dotsData} />
+            <Sketch dotsData={dotsData}/>
             <Global styles={global} />
-            <Text setElmHeight={setElmHeight}/>
+            <Text setElmHeight={setElmHeight} />
             <Text />
             <Text />
             <Text />

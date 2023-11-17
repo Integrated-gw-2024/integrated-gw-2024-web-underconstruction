@@ -3,127 +3,162 @@ import Q5 from "../lib/q5.min.js";
 import findObject from "../utils/findObject";
 import World from "../features/dots/World/World.js";
 import shuffleArray from "../utils/shuffleArray.js";
+import { neko } from "../lib/neko-lib.js";
+import GetColorSchemes from "../utils/GetColorSchemes.js";
 
 let toggle = false;
 const reg = /\b(\d+\.\d+)\b/g;
+let num = 1;
 
 export default function Sketch(props) {
     let sketchRef = useRef();
+    const d = GetColorSchemes();
+    const colorSchemes = d.colorSchemesJson.colors;
 
-    let dotsData;
+    useEffect(() => {
+        let dotsData;
 
-    const graphicTransitionTime = 6000;
-    //ToMove(startX, startY, endX, endY, frame数, 揺れ, easing)
-    //
-    //イージングでoutを掛けてあげると終点近くでまとまるので最後のずれの問題が収まりやすい。
+        const graphicTransitionTime = 6000;
+        //ToMove(startX, startY, endX, endY, frame数, 揺れ, easing)
+        //
+        //イージングでoutを掛けてあげると終点近くでまとまるので最後のずれの問題が収まりやすい。
+        const q5 = new Q5("this", sketchRef.current);
 
-    const q5 = new Q5("this", sketchRef.current);
+        let w = new World(q5, graphicTransitionTime * 0.09);
 
-    let w = new World(q5, graphicTransitionTime * 0.09);
-
-    console.log(w);
-
-    let offsetX = 0;
-    let offsetY = 0;
-
-    let svgSize = [];
-    let svgWidth,
-        svgHeight = 0;
-    let viewBox;
-
-    if (props.dotsData) {
-        dotsData = props.dotsData;
-        const name = dotsData.charTn01Json.svg;
-
-        viewBox = name._.viewBox;
-        svgSize = viewBox.match(reg);
-        svgWidth = parseFloat(svgSize[0]);
-        svgHeight = parseFloat(svgSize[1]);
-
-        offsetX = svgWidth / 2;
-        offsetY = svgHeight / 2;
-        w.setOffset(-offsetX, -offsetY);
-
-        const dotsObject = findObject(name, "circle");
-        w.addDot(dotsObject, q5);
-    }
-    console.log(dotsData);
-
-    q5.mousePressed = () => {
         console.log(w);
-        let dotsObject;
-        let name = dotsData.d01Json.svgD01;
-        if (toggle) {
-            name = dotsData.char02Json.svg;
-            dotsObject = findObject(name, "circle");
-        } else {
-            name = dotsData.char01Json.svg;
-            dotsObject = findObject(name, "circle");
-        }
-        toggle = !toggle;
 
-        console.log(name);
-        viewBox = name._.viewBox;
+        let offsetX = 0;
+        let offsetY = 0;
 
-        svgSize = viewBox.match(reg);
-        svgWidth = parseFloat(svgSize[0]);
-        svgHeight = parseFloat(svgSize[1]);
-
-        offsetX = svgWidth / 2;
-        offsetY = svgHeight / 2;
-        w.setOffset(-offsetX, -offsetY);
-
-        w.changeGraphic(dotsObject);
-    };
-
-    q5.setup = () => {
-        q5.createCanvas(q5.windowWidth, q5.windowHeight);
+        let svgSize = [];
+        let svgWidth,
+            svgHeight = 0;
+        let viewBox;
 
         if (props.dotsData) {
-            scheduleChange();
+            dotsData = props.dotsData;
+            const name = dotsData.charTn01Json.svg;
+
+            viewBox = name._.viewBox;
+            svgSize = viewBox.match(reg);
+            svgWidth = parseFloat(svgSize[0]);
+            svgHeight = parseFloat(svgSize[1]);
+
+            offsetX = svgWidth / 2;
+            offsetY = svgHeight / 2;
+            w.setOffset(-offsetX, -offsetY);
+
+            const dotsObject = findObject(name, "circle");
+            w.addDot(dotsObject, q5);
         }
-    };
 
-    q5.draw = () => {
-        const scaleFactor = q5.min(q5.width / svgWidth, q5.height / svgHeight);
-        q5.clear();
-        q5.pushMatrix();
-        //q5.translate(q5.width / 2 - (svgWidth/2), q5.height / 2 - (svgHeight/2));
-        q5.translate(q5.width / 2, q5.height / 2);
-        if (q5.width < q5.height) {
-            q5.scale(scaleFactor / 1.03);
-        } else {
-            q5.scale(scaleFactor / 1.3);
+        console.log(dotsData);
+
+        q5.mousePressed = () => {
+            //change(w,dotsData,num);
+        };
+
+        q5.setup = () => {
+            q5.createCanvas(q5.windowWidth, q5.windowHeight);
+
+            if (props.dotsData) {
+                scheduleChange();
+            }
+        };
+
+        const index = Math.floor(Math.random() * colorSchemes.length);
+        const fillColor = colorSchemes[index].fill;
+        const strokeColor = colorSchemes[index].stroke;
+        const bgColor = colorSchemes[index].background;
+        let prevCol = {
+            fill: q5.color(fillColor.r, fillColor.g, fillColor.b),
+            stroke: q5.color(strokeColor.r, strokeColor.g, strokeColor.b),
+            background: q5.color(bgColor.r, bgColor.g, bgColor.b),
+        };
+        let nowCol = prevCol;
+
+        let amt = new neko.FrameTween(0, 1, 100, neko.Easing.easeOutSine);
+
+        q5.draw = () => {
+            amt.update();
+
+            const fillColor = q5.lerpColor(
+                prevCol.fill,
+                nowCol.fill,
+                amt.getValues()[0]
+            );
+            const strokeColor = q5.lerpColor(
+                prevCol.stroke,
+                nowCol.stroke,
+                amt.getValues()[0]
+            );
+            const bgColor = q5.lerpColor(
+                prevCol.background,
+                nowCol.background,
+                amt.getValues()[0]
+            );
+
+            const scaleFactor = q5.min(
+                q5.width / svgWidth,
+                q5.height / svgHeight
+            );
+            //q5.clear();
+            q5.background(bgColor);
+            q5.pushMatrix();
+            //q5.translate(q5.width / 2 - (svgWidth/2), q5.height / 2 - (svgHeight/2));
+            let scale = 1;
+            q5.translate(q5.width / 2, q5.height / 2);
+            if (q5.width < q5.height) {
+                scale = scaleFactor / 1.03;
+            } else {
+                scale = scaleFactor / 1.3;
+            }
+            q5.fill(fillColor);
+            q5.stroke(strokeColor);
+
+            //q5.fill("#FF625B");
+            //q5.stroke("#FD3238");
+            q5.strokeWeight(1);
+            w.update();
+            w.display("DOTS", scale);
+            q5.popMatrix();
+        };
+
+        const isBrowser = typeof window !== "undefined";
+        if (isBrowser) {
+            window.addEventListener("resize", () => {
+                q5.resizeCanvas(q5.windowWidth, q5.windowHeight);
+            });
+
+            window.addEventListener("scrollback", () => {
+                prevCol = nowCol;
+                amt = new neko.FrameTween(0, 1, 100, neko.Easing.easeOutSine);
+
+                const index = Math.floor(Math.random() * colorSchemes.length);
+                const fillColor = colorSchemes[index].fill;
+                const strokeColor = colorSchemes[index].stroke;
+                const bgColor = colorSchemes[index].background;
+                nowCol = {
+                    fill: q5.color(fillColor.r, fillColor.g, fillColor.b),
+                    stroke: q5.color(
+                        strokeColor.r,
+                        strokeColor.g,
+                        strokeColor.b
+                    ),
+                    background: q5.color(bgColor.r, bgColor.g, bgColor.b),
+                };
+            });
         }
-        q5.fill("#FF625B");
-        q5.stroke("#FD3238");
-        q5.strokeWeight(0.5);
-        w.update();
-        w.display("DOTS");
-        q5.popMatrix();
-        /*
-        q5.translate(q5.width/2,q5.height/2);
-        q5.scale(q5.map(q5.mouseX,0,q5.width,0.1,20));
-        q5.fill(0);
-        q5.ellipse(0,0,10,10);
-        */
-    };
 
-    const isBrowser = typeof window !== "undefined";
-    if (isBrowser) {
-        window.addEventListener("resize",()=>{
-            q5.resizeCanvas(q5.windowWidth, q5.windowHeight);
-        });
-    }
-
-    let num = 1;
-    const scheduleChange = () => {
-        setTimeout(() => {
-            change(w, dotsData, num);
-            num < 7 ? num++ : (num = 0);
-            scheduleChange();
-        }, graphicTransitionTime);
-    };
+        const scheduleChange = () => {
+            setTimeout(() => {
+                change(w, dotsData, num);
+                num < 7 ? num++ : (num = 0);
+                scheduleChange();
+            }, graphicTransitionTime);
+        };
+    }, [props.dotsData]);
 
     return <div ref={sketchRef} />;
 }
