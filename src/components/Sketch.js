@@ -15,6 +15,7 @@ export default function Sketch(props) {
     let sketchRef = useRef();
     const d = GetColorSchemes();
     const colors = d.colorSchemesJson.colors;
+    let isFirstColorChange = true;
 
     useEffect(() => {
         let dotsData;
@@ -69,8 +70,8 @@ export default function Sketch(props) {
         };
 
         const index = Math.floor(Math.random() * colors.length);
-        
-        let prevCol = ColorSchemes(colors[index],q5);
+
+        let prevCol = ColorSchemes(colors[index], q5);
         let nowCol = prevCol;
 
         let amt = new neko.FrameTween(0, 1, 100, neko.Easing.easeOutSine);
@@ -129,15 +130,29 @@ export default function Sketch(props) {
             window.addEventListener("scrollback", () => {
                 prevCol = nowCol;
                 const index = Math.floor(Math.random() * colors.length);
-                nowCol = ColorSchemes(colors[index],q5)
+                nowCol = ColorSchemes(colors[index], q5);
                 amt = new neko.FrameTween(0, 1, 100, neko.Easing.easeOutSine);
             });
         }
 
+        
         const scheduleChange = () => {
             setTimeout(() => {
                 change(w, dotsData, num);
                 num < 7 ? num++ : (num = 0);
+                console.log(!isFirstColorChange && num == 1 || num == 5);
+                if (!isFirstColorChange && num == 1 || num == 5) {
+                    prevCol = nowCol;
+                    const index = Math.floor(Math.random() * colors.length);
+                    nowCol = ColorSchemes(colors[index], q5);
+                    amt = new neko.FrameTween(
+                        0,
+                        1,
+                        100,
+                        neko.Easing.easeOutSine
+                    );
+                }
+                isFirstColorChange = false;
                 scheduleChange();
             }, graphicTransitionTime);
         };
