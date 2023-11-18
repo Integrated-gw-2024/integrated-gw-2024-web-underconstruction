@@ -1,19 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { css } from "@emotion/react";
 
-export default function Text(props) {
-    const elm = useRef();
-    useEffect(() => {
-        let isMounted = true;
-        if (props.setElmHeight && isMounted) {
-            props.setElmHeight(elm.current.getBoundingClientRect().height);
-        }
-        return () => {
-            isMounted = false;
-        };
-    }, []);
+export default function Text() {
+    
     return (
-        <article className="text" ref={elm}>
+        <article className="text">
             <div className="textWrapper">
                 <section className="margin--bottom--9percent--section">
                     <section

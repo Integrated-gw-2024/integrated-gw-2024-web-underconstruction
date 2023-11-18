@@ -7,6 +7,7 @@ import Text from "../components/Text";
 import Header from "../components/Header";
 import SNS from "../components/SNS";
 import GetColorSchemes from "../utils/GetColorSchemes";
+import ExhibitionDetail from "../components/ExhibitionDetail";
 
 const IndexPage = () => {
     const [dotsData, setDotsData] = useState(0);
@@ -66,20 +67,12 @@ const IndexPage = () => {
                     ${backgroundColor.b}
                 );
             `} />
-            <div>
-                <Header />
-                <div className="wrapper">
-                    <Text setElmHeight={setElmHeight} />
-                    <SNS />
-                </div>
-            </div>
-            <Header />
-            <Text />
-            <Header />
-            <Text />
-            <Text />
-            <Text />
-            <Text />
+            <ExhibitionDetail setElmHeight={setElmHeight}/>
+            <ExhibitionDetail setElmHeight={setElmHeight}/>
+            <ExhibitionDetail setElmHeight={setElmHeight}/>
+            <ExhibitionDetail setElmHeight={setElmHeight}/>
+            <ExhibitionDetail setElmHeight={setElmHeight}/>
+            <ExhibitionDetail setElmHeight={setElmHeight}/>
         </>
     );
 };
