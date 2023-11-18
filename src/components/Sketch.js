@@ -11,6 +11,7 @@ let toggle = false;
 const reg = /\b(\d+\.\d+)\b/g;
 let num = 1;
 
+
 export default function Sketch(props) {
     let sketchRef = useRef();
     const d = GetColorSchemes();
@@ -70,7 +71,7 @@ export default function Sketch(props) {
         };
 
         const index = Math.floor(Math.random() * colors.length);
-
+        props.setColorsNum(index);
         let prevCol = ColorSchemes(colors[index], q5);
         let nowCol = prevCol;
 
@@ -89,18 +90,12 @@ export default function Sketch(props) {
                 nowCol.stroke,
                 amt.getValues()[0]
             );
-            const bgColor = q5.lerpColor(
-                prevCol.background,
-                nowCol.background,
-                amt.getValues()[0]
-            );
 
             const scaleFactor = q5.min(
                 q5.width / svgWidth,
                 q5.height / svgHeight
             );
-            //q5.clear();
-            q5.background(bgColor);
+            q5.clear();
             q5.pushMatrix();
             //q5.translate(q5.width / 2 - (svgWidth/2), q5.height / 2 - (svgHeight/2));
             let scale = 1;
@@ -130,6 +125,7 @@ export default function Sketch(props) {
             window.addEventListener("scrollback", () => {
                 prevCol = nowCol;
                 const index = Math.floor(Math.random() * colors.length);
+                props.setColorsNum(index);
                 nowCol = ColorSchemes(colors[index], q5);
                 amt = new neko.FrameTween(0, 1, 100, neko.Easing.easeOutSine);
             });
@@ -144,6 +140,7 @@ export default function Sketch(props) {
                 if (!isFirstColorChange && num == 1 || num == 5) {
                     prevCol = nowCol;
                     const index = Math.floor(Math.random() * colors.length);
+                    props.setColorsNum(index);
                     nowCol = ColorSchemes(colors[index], q5);
                     amt = new neko.FrameTween(
                         0,
