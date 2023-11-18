@@ -1,8 +1,8 @@
-import { neko } from "../../lib/neko-lib";
-import Dot from "./Dot";
-import DotTarget from "./DotTarget";
-import setTargetPosition from "./setTargetPosition";
-import genDotTarget from "./world/genDotTarget";
+import { neko } from "../../../lib/neko-lib";
+import Dot from "../Dot";
+import DotTarget from "../DotTarget";
+import setTargetPosition from "../setTargetPosition";
+import genDotTarget from "./genDotTarget";
 
 export default class World {
     #dots;
@@ -36,6 +36,7 @@ export default class World {
     }
 
     changeGraphic(dotsObject) {
+        this.duration = this.#q5.random(80,200);
         const prevSize = this.#dotsTarget.length;
         if (dotsObject.length > prevSize) {
             for (let i = prevSize; i < dotsObject.length; i++) {
@@ -65,18 +66,26 @@ export default class World {
             if (dotsObject.length > i) {
                 x = parseFloat(dotsObject[i]._.cx);
                 y = parseFloat(dotsObject[i]._.cy);
-                toSZ = parseFloat(dotsObject[i]._.r);
+                if (dotsObject[i]._.r) {
+                    toSZ = parseFloat(dotsObject[i]._.r);
+                } else {
+                    toSZ = parseFloat(dotsObject[i]._.rx);
+                }
             } else {
                 const index = Math.floor(Math.random() * dotsObject.length);
                 x = parseFloat(dotsObject[index]._.cx);
                 y = parseFloat(dotsObject[index]._.cy);
-                toSZ = parseFloat(dotsObject[index]._.r);
-                console.log(x, y);
+                if (dotsObject[index]._.r) {
+                    toSZ = parseFloat(dotsObject[index]._.r);
+                } else {
+                    toSZ = parseFloat(dotsObject[index]._.rx);
+                }
+                //console.log(x, y);
             }
 
             const toMove = this.#dotsTarget[i];
             const ball = this.#dots[i];
-            const swing = 1000;
+            const swing = 400;
             const easing = neko.Easing.easeOutSine;
             const toX = x + this.#offsetX;
             const toY = y + this.#offsetY;
@@ -100,7 +109,12 @@ export default class World {
         for (const dot of dotsObject) {
             const x = parseFloat(dot._.cx);
             const y = parseFloat(dot._.cy);
-            const fromSZ = parseFloat(dot._.r);
+            let fromSZ = 0;
+            if (dot._.r) {
+                fromSZ = parseFloat(dot._.r);
+            } else {
+                fromSZ = parseFloat(dot._.rx);
+            }
             const toMove = new DotTarget(
                 x + this.#offsetX,
                 y + this.#offsetY,
@@ -120,14 +134,14 @@ export default class World {
         }
     }
 
-    display(displayTarget) {
+    display(displayTarget,scale) {
         if (displayTarget == "DOTS") {
             for (const dot of this.#dots) {
-                dot.display();
+                dot.display(scale);
             }
         } else if (displayTarget == "TARGET") {
             for (const dt of this.#dotsTarget) {
-                dt.display();
+                dt.display(scale);
             }
         } else {
             if (this.#isFirstCall) {
@@ -139,12 +153,12 @@ export default class World {
         }
     }
 
-    update() {
+    update(scale) {
         for (const dot of this.#dots) {
-            dot.update();
+            dot.update(scale);
         }
         for (const dt of this.#dotsTarget) {
-            dt.update();
+            dt.update(scale);
         }
     }
 }

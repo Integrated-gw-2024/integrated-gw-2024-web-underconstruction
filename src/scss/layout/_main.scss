@@ -1,21 +1,97 @@
 @use "../mixin/MediaQuery" as mq;
+
+.wrapper{
+    .text{
+        top: -6.7%;
+    }
+}
+
+.ExhibitionDetail{
+    margin-right: 1.7%;
+}
+
 .text {
+    //background-color: aqua;
     pointer-events: none;
-    font-size: 130%;
-    margin-left: 2.3vw;
-    margin-top: 4.5vh;
+    font-size: 146%;
+    letter-spacing: 0.3px;
+    //z-index: 999;
+    position: relative;
+
+    @include mq.Width("l") {
+        font-size: 163%;
+    }
+}
+
+.textWrapper {
     display: flex;
     flex-direction: column;
     gap: 0%;
-    z-index: 999;
     position: relative;
-    
-    
-    @include mq.Width("l"){
+    margin-left: 3.2vw;
+
+    @include mq.Width("l") {
         margin-bottom: unset;
-        gap: 7%;
-        font-size: 163%;
+        gap: 10%;
         display: flex;
         flex-direction: row;
     }
+}
+
+.archive {
+    z-index: 99999999;
+    color: black;
+    position: relative;
+    display: flex;
+    gap: 0.7%;
+    font-size: 80%;
+    flex-direction: row-reverse;
+    margin-top: 30px;
+
+    div::before {
+        content: "("
+    }
+
+    div::after {
+        content: ")"
+    }
+
+    .archiveLink {
+        a {
+            padding: 6px;
+        }
+    }
+
+    @include mq.Width("l") {
+        font-size: 115%;
+    }
+}
+
+.SNS {
+    color: #000;
+    z-index: 99999999;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+
+    
+    &-ig{
+        width: max(1vw, 28px);
+        margin-right: 14.8px;
+    }
+
+    &-x{
+        width: max(1vw, 25px);
+    }
+    
+    &-note{
+        width: max(1vw, 51px);
+    }
+}
+
+.wrapper{
+    flex-direction: column-reverse;
+    display: flex;
 }

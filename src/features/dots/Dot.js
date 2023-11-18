@@ -18,18 +18,18 @@ export default class Dot {
         this.targetSZ = toMove.toSZ;
     }
 
-    fromPosition(x,y) {
+    fromPosition(x, y) {
         this.targetPosition = {
             x: x,
             y: y,
-        }
+        };
     }
 
-    toPosition(x,y) {
+    toPosition(x, y) {
         this.targetPosition = {
             x: x,
             y: y,
-        }
+        };
     }
 
     update() {
@@ -48,7 +48,15 @@ export default class Dot {
         this.sz = this.sz + (this.targetSZ - this.sz) * this.easing;
     }
 
-    display() {
-        this.q5.circle(this.position.x, this.position.y, this.sz * 2);
+    display(scale) {
+        const posX = (this.position.x * scale);
+        const posY = (this.position.y * scale);
+        const sz = this.sz * 2 * scale;
+
+        this.q5.circle(
+            posX,
+            posY,
+            sz,
+        );
     }
 }
