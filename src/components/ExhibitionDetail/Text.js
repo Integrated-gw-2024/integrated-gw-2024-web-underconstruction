@@ -2,7 +2,6 @@ import React from "react";
 import { css } from "@emotion/react";
 
 export default function Text() {
-    
     return (
         <article className="text">
             <div className="textWrapper">
@@ -13,9 +12,9 @@ export default function Text() {
                         `}
                     >
                         <p>
-                            coming soon...
+                            準備中
                             <br />
-                            ver 0.01
+                            coming soon...
                         </p>
                     </section>
                     <section>
@@ -43,18 +42,36 @@ export default function Text() {
                     </section>
                 </section>
                 <section className="margin--bottom--9percent--section">
-                    <section>
+                    <section
+                        css={css`
+                            z-index: 999999999 !important;
+                            position: sticky;
+                        `}
+                    >
                         <p>TAMA ART UNIVERSITY</p>
                     </section>
                     <section>DEPARTMENT OF</section>
-                    <section>
+                    <section
+                        css={css`
+                            z-index: 999999999 !important;
+                            position: sticky;
+                            margin-bottom: 4% !important;
+                        `}
+                    >
                         INTEGRATED
                         <br />
                         DESIGN
+                    </section>
+                    <section
+                        css={css`
+                            z-index: 999999999 !important;
+                            position: sticky;
+                        `}
+                    >
                         <br />
                         GRADUATION
                         <br />
-                        SHOW
+                        SHOW 2024
                     </section>
                     <section>KAMINOGE CAMPUS</section>
                 </section>
