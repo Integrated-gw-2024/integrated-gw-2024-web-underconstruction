@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import InstagramLogo from "../images/SNS/Instagram.svg";
-import XLogo from "../images/SNS/X.svg";
-import noteLogo from "../images/SNS/note.svg";
+import InstagramLogo from "../../images/SNS/Instagram.svg";
+import XLogo from "../../images/SNS/X.svg";
+import noteLogo from "../../images/SNS/note.svg";
 
 export default function SNS() {
     return (

@@ -7,7 +7,7 @@ import Text from "../components/Text";
 import Header from "../components/Header";
 import SNS from "../components/SNS";
 import GetColorSchemes from "../utils/GetColorSchemes";
-import ExhibitionDetail from "../components/ExhibitionDetail";
+import ExhibitionDetail from "../components/ExhibitionDetail/ExhibitionDetail";
 
 const IndexPage = () => {
     const [dotsData, setDotsData] = useState(0);
@@ -47,7 +47,8 @@ const IndexPage = () => {
 
     useEffect(() => {
         let ignore = false;
-        if (!ignore) {;
+        if (!ignore) {
+            console.log("[color]",colorsNum);
             backgroundColor = c.colorSchemesJson.colors[colorsNum].background
             document.body.style.backgroundColor = `rgb(${backgroundColor.r},${backgroundColor.g},${backgroundColor.b})`;
         }

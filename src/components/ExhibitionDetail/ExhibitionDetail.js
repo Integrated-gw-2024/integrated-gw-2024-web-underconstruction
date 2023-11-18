@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import Text from "../components/Text";
-import Header from "../components/Header";
-import SNS from "../components/SNS";
+import Text from "./Text";
+import Header from "./Header";
+import SNS from "./SNS";
 
 export default function ExhibitionDetail(props) {
     const elm = useRef();
