@@ -3,9 +3,6 @@ import Sketch from "../components/Sketch";
 import GetDotsData from "../utils/GetDotsData";
 import "../scss/style.scss";
 import { Global, css } from "@emotion/react";
-import Text from "../components/Text";
-import Header from "../components/Header";
-import SNS from "../components/SNS";
 import GetColorSchemes from "../utils/GetColorSchemes";
 import ExhibitionDetail from "../components/ExhibitionDetail/ExhibitionDetail";
 
