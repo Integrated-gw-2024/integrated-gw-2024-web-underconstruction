@@ -10,7 +10,11 @@ import ColorSchemes from "../utils/ColorSchemes.js";
 let toggle = false;
 const reg = /\b(\d+\.\d+)\b/g;
 let num = 1;
-
+let svgWidth,
+    svgHeight = 0;
+let prevScale = 1;
+let dotsScaleValue;
+let dotsScale;
 
 export default function Sketch(props) {
     let sketchRef = useRef();
@@ -21,7 +25,7 @@ export default function Sketch(props) {
     useEffect(() => {
         let dotsData;
 
-        const graphicTransitionTime = 6000;
+        const graphicTransitionTime = 7000;
         //ToMove(startX, startY, endX, endY, frame数, 揺れ, easing)
         //
         //イージングでoutを掛けてあげると終点近くでまとまるので最後のずれの問題が収まりやすい。
@@ -33,30 +37,7 @@ export default function Sketch(props) {
         let offsetY = 0;
 
         let svgSize = [];
-        let svgWidth,
-            svgHeight = 0;
         let viewBox;
-
-        if (props.dotsData) {
-            dotsData = props.dotsData;
-            const name = dotsData.charTn01Json.svg;
-
-            viewBox = name._.viewBox;
-            svgSize = viewBox.match(reg);
-            svgWidth = parseFloat(svgSize[0]);
-            svgHeight = parseFloat(svgSize[1]);
-
-            offsetX = svgWidth / 2;
-            offsetY = svgHeight / 2;
-            w.setOffset(-offsetX, -offsetY);
-
-            const dotsObject = findObject(name, "circle");
-            w.addDot(dotsObject, q5);
-        }
-
-        q5.mousePressed = () => {
-            //change(w,dotsData,num);
-        };
 
         q5.setup = () => {
             q5.createCanvas(q5.windowWidth, q5.windowHeight);
@@ -66,15 +47,43 @@ export default function Sketch(props) {
             }
         };
 
+        if (props.dotsData) {
+            dotsData = props.dotsData;
+            const name = dotsData.charTn01Json.svg;
+
+            viewBox = name._.viewBox;
+            svgSize = viewBox.match(reg);
+            svgWidth = parseFloat(svgSize[0]);
+            svgHeight = parseFloat(svgSize[1]);
+            prevScale = q5.min(q5.windowWidth / svgWidth, q5.windowHeight / svgHeight);
+            dotsScale = rescale(svgWidth, svgHeight, q5);
+            console.log(svgWidth);
+
+            offsetX = svgWidth / 2;
+            offsetY = svgHeight / 2;
+            w.setOffset(-offsetX, -offsetY);
+
+            const dotsObject = findObject(name, "circle");
+            w.addDot(dotsObject, q5);
+        }
+
+
+        q5.mousePressed = () => {
+            //change(w,dotsData,num);
+        };
+
         const index = Math.floor(Math.random() * colors.length);
         props.setColorsNum(index);
         let prevCol = ColorSchemes(colors[index], q5);
         let nowCol = prevCol;
 
         let amt = new neko.FrameTween(0, 1, 100, neko.Easing.easeOutSine);
-
         q5.draw = () => {
             amt.update();
+            if(dotsScale){
+                dotsScale.update();
+                dotsScaleValue = dotsScale.getValues()[0];
+            }
 
             const fillColor = q5.lerpColor(
                 prevCol.fill,
@@ -87,19 +96,15 @@ export default function Sketch(props) {
                 amt.getValues()[0]
             );
 
-            const scaleFactor = q5.min(
-                q5.width / svgWidth,
-                q5.height / svgHeight
-            );
             q5.clear();
             q5.pushMatrix();
             //q5.translate(q5.width / 2 - (svgWidth/2), q5.height / 2 - (svgHeight/2));
             let scale = 1;
             q5.translate(q5.width / 2, q5.height / 2);
             if (q5.width < q5.height) {
-                scale = scaleFactor / 1.03;
+                scale = dotsScaleValue / 1.14;
             } else {
-                scale = scaleFactor / 1.3;
+                scale = dotsScaleValue / 1.3;
             }
             q5.fill(fillColor);
             q5.stroke(strokeColor);
@@ -127,12 +132,11 @@ export default function Sketch(props) {
             });
         }
 
-        
         const scheduleChange = () => {
             setTimeout(() => {
                 change(w, dotsData, num);
                 num < 7 ? num++ : (num = 0);
-                if (!isFirstColorChange && num == 1 || num == 5) {
+                if ((!isFirstColorChange && num == 1) || num == 5) {
                     prevCol = nowCol;
                     const index = Math.floor(Math.random() * colors.length);
                     props.setColorsNum(index);
@@ -144,6 +148,8 @@ export default function Sketch(props) {
                         neko.Easing.easeOutSine
                     );
                 }
+
+                dotsScale = rescale(svgWidth, svgHeight,q5);
                 isFirstColorChange = false;
                 scheduleChange();
             }, graphicTransitionTime);
@@ -155,8 +161,6 @@ export default function Sketch(props) {
 
 function change(w, dotsData, num) {
     let svgSize = [];
-    let svgWidth,
-        svgHeight = 0;
     let viewBox;
     let offsetX = 0;
     let offsetY = 0;
@@ -220,4 +224,22 @@ function change(w, dotsData, num) {
     w.setOffset(-offsetX, -offsetY);
 
     w.changeGraphic(dotsObject);
+}
+
+function rescale(svgWidth, svgHeight,q5) {
+    const scale = q5.min(q5.windowWidth / svgWidth, q5.windowHeight / svgHeight);
+    console.log(svgWidth);
+    console.log(q5.windowWidth,svgWidth,q5.windowHeight,svgHeight);
+    console.log(scale);
+    
+    let amt = new neko.FrameTween(
+        prevScale,
+        scale,
+        100,
+        neko.Easing.easeOutSine
+        );
+        
+    prevScale = scale;
+
+    return amt;
 }

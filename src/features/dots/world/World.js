@@ -36,7 +36,7 @@ export default class World {
     }
 
     changeGraphic(dotsObject) {
-        this.duration = this.#q5.random(80,200);
+        this.duration = this.#q5.random(80,300);
         const prevSize = this.#dotsTarget.length;
         if (dotsObject.length > prevSize) {
             for (let i = prevSize; i < dotsObject.length; i++) {
