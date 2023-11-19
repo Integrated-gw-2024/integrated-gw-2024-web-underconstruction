@@ -29,8 +29,6 @@ export default function Sketch(props) {
 
         let w = new World(q5, graphicTransitionTime * 0.09);
 
-        console.log(w);
-
         let offsetX = 0;
         let offsetY = 0;
 
@@ -55,8 +53,6 @@ export default function Sketch(props) {
             const dotsObject = findObject(name, "circle");
             w.addDot(dotsObject, q5);
         }
-
-        console.log(dotsData);
 
         q5.mousePressed = () => {
             //change(w,dotsData,num);
@@ -136,7 +132,6 @@ export default function Sketch(props) {
             setTimeout(() => {
                 change(w, dotsData, num);
                 num < 7 ? num++ : (num = 0);
-                console.log(!isFirstColorChange && num == 1 || num == 5);
                 if (!isFirstColorChange && num == 1 || num == 5) {
                     prevCol = nowCol;
                     const index = Math.floor(Math.random() * colors.length);
@@ -168,8 +163,6 @@ function change(w, dotsData, num) {
 
     let dotsObject;
     let name = dotsData.d01Json.svgD01;
-
-    console.log(num);
 
     switch (num) {
         case 0:
@@ -212,9 +205,7 @@ function change(w, dotsData, num) {
     if (!dotsObject) {
         dotsObject = findObject(name, "ellipse");
     }
-    console.log(dotsObject[0]);
     dotsObject = shuffleArray(dotsObject);
-    console.log(dotsObject[0]);
 
     toggle = !toggle;
 

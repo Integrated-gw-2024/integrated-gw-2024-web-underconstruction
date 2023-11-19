@@ -80,7 +80,6 @@ export default class World {
                 } else {
                     toSZ = parseFloat(dotsObject[index]._.rx);
                 }
-                //console.log(x, y);
             }
 
             const toMove = this.#dotsTarget[i];

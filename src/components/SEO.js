@@ -29,8 +29,6 @@ function SEO({ title, desc, lang, type, image, twID }) {
         },
     };
 
-    console.log(seo);
-
     if (title != undefined) {
         seo.title = siteName;
         seo.ogTitle = title;
