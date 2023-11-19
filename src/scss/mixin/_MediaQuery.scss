@@ -2,10 +2,11 @@ $wBreakPoints: (
     "xxs": "screen and (max-width: 466px)",
     "xs": "screen and (min-width: 467px)",
     "s": "screen and (min-width: 600px)",
-    "m": "screen and (min-width: 834px)",
-    "l": "screen and (min-width: 1024px)",
+    "m": "screen and (min-width: 670px)",
+    "l": "screen and (min-width: 1120px)",
     "xl": "screen and (min-width: 1480px)",
     "xxl": "screen and (min-width: 1635px)",
+    "xxxl": "screen and (min-width: 2300px)",
 ) !default;
 
 @mixin Width($wBreakPoint) {

@@ -8,7 +8,7 @@ export default function Text() {
                 <section className="margin--bottom--9percent--section">
                     <section
                         css={css`
-                            margin-bottom: 26% !important;
+                            margin-bottom: 8.1vh !important;
                         `}
                     >
                         <p>
@@ -28,7 +28,7 @@ export default function Text() {
                     </section>
                     <section
                         css={css`
-                            margin-bottom: 16% !important;
+                            margin-bottom: 5.2vh !important
                         `}
                     >
                         <p>
@@ -64,16 +64,16 @@ export default function Text() {
                     </section>
                     <section
                         css={css`
+                            margin-bottom: 18%;
                             z-index: 999999999 !important;
                             position: sticky;
                         `}
                     >
-                        <br />
                         GRADUATION
                         <br />
                         SHOW 2024
                     </section>
-                    <section>KAMINOGE CAMPUS</section>
+                    <section css={css`margin-bottom:unset !important`}>KAMINOGE CAMPUS</section>
                 </section>
             </div>
         </article>
