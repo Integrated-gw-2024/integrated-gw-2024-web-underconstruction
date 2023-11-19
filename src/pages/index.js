@@ -36,7 +36,9 @@ const Index = () => {
     });
 
     const moveToStart = () => {
+        console.log("window.scrollY",window.scrollY,"elmHeight",elmHeight,"elmHeight*4",elmHeight*4);
         if (window.scrollY > elmHeight * 4) {
+            elmHeight 
             window.scroll({ top: 1, behavior: "instant" });
             window.dispatchEvent(scrollEvent);
         }
