@@ -235,8 +235,8 @@ function rescale(svgWidth, svgHeight,q5) {
     let amt = new neko.FrameTween(
         prevScale,
         scale,
-        100,
-        neko.Easing.easeOutSine
+        200,
+        neko.Easing.easeOutBack,
         );
         
     prevScale = scale;
