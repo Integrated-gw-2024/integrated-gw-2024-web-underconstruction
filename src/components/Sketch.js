@@ -102,7 +102,7 @@ export default function Sketch(props) {
             let scale = 1;
             q5.translate(q5.width / 2, q5.height / 2);
             if (q5.width < q5.height) {
-                scale = dotsScaleValue / 1.14;
+                scale = dotsScaleValue / 1.22;
             } else {
                 scale = dotsScaleValue / 1.3;
             }
@@ -228,9 +228,6 @@ function change(w, dotsData, num) {
 
 function rescale(svgWidth, svgHeight,q5) {
     const scale = q5.min(q5.windowWidth / svgWidth, q5.windowHeight / svgHeight);
-    console.log(svgWidth);
-    console.log(q5.windowWidth,svgWidth,q5.windowHeight,svgHeight);
-    console.log(scale);
     
     let amt = new neko.FrameTween(
         prevScale,
