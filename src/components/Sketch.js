@@ -39,11 +39,14 @@ export default function Sketch(props) {
         let svgSize = [];
         let viewBox;
 
+        if (props.dotsData) {
+            dotsData = props.dotsData;
+        }
+
         const initDots = () => {
             if (props.dotsData) {
                 w = null;
                 w = new World(q5, graphicTransitionTime * 0.09);
-                dotsData = props.dotsData;
                 const name = dotsData.charTn01Json.svg;
 
                 viewBox = name._.viewBox;
@@ -55,7 +58,6 @@ export default function Sketch(props) {
                     q5.windowHeight / svgHeight
                 );
                 dotsScale = rescale(svgWidth, svgHeight, q5);
-                console.log(svgWidth);
 
                 offsetX = svgWidth / 2;
                 offsetY = svgHeight / 2;
@@ -158,19 +160,21 @@ export default function Sketch(props) {
 
         const scheduleChange = () => {
             schedule = setTimeout(() => {
-                change(w, dotsData, num);
-                num < 7 ? num++ : (num = 0);
-                if ((!isFirstColorChange && num == 1) || num == 5) {
-                    prevCol = nowCol;
-                    const index = Math.floor(Math.random() * colors.length);
-                    props.setColorsNum(index);
-                    nowCol = ColorSchemes(colors[index], q5);
-                    amt = new neko.FrameTween(
-                        0,
-                        1,
-                        100,
-                        neko.Easing.easeOutSine
-                    );
+                if (dotsData) {
+                    change(w, dotsData, num);
+                    num < 7 ? num++ : (num = 0);
+                    if ((!isFirstColorChange && num == 1) || num == 5) {
+                        prevCol = nowCol;
+                        const index = Math.floor(Math.random() * colors.length);
+                        props.setColorsNum(index);
+                        nowCol = ColorSchemes(colors[index], q5);
+                        amt = new neko.FrameTween(
+                            0,
+                            1,
+                            100,
+                            neko.Easing.easeOutSine
+                        );
+                    }
                 }
 
                 dotsScale = rescale(svgWidth, svgHeight, q5);
