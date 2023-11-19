@@ -178,10 +178,6 @@ export default function Sketch(props) {
                 scheduleChange();
             }, graphicTransitionTime);
         };
-
-        q5.mousePressed = () => {
-            reset();
-        };
     }, [props.dotsData]);
 
     return <div ref={sketchRef} />;
