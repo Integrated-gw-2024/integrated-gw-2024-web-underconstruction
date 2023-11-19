@@ -9,3 +9,11 @@
         }
     }
 }
+
+.padding{
+    &-top{
+        &-3_9vh{
+            padding-top: 3.9vh !important;
+        }
+    }
+}
