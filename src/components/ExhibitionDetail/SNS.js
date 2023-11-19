@@ -11,17 +11,21 @@ export default function SNS() {
                 target="_blank"
                 rel="noopener"
             >
-                <img src={InstagramLogo} className="SNS-ig"/>
+                <img src={InstagramLogo} className="SNS-ig" alt="Instagram"/>
             </a>
             <a
                 href="https://twitter.com/integrated_gw"
                 target="_blank"
                 rel="noopener"
             >
-                <img src={XLogo} className="SNS-x"/>
+                <img src={XLogo} className="SNS-x" alt="X (Twitter)"/>
             </a>
-            <a href="https://note.com/900000" target="_blank" rel="noopener">
-                <img src={noteLogo} className="SNS-note"/>
+            <a
+                href="https://note.com/900000"
+                target="_blank"
+                rel="noopener"
+            >
+                <img src={noteLogo} className="SNS-note" alt="note"/>
             </a>
         </div>
     );

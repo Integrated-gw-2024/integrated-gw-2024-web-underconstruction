@@ -5,14 +5,15 @@ import "../scss/style.scss";
 import { Global, css } from "@emotion/react";
 import GetColorSchemes from "../utils/GetColorSchemes";
 import ExhibitionDetail from "../components/ExhibitionDetail/ExhibitionDetail";
+import SEO from "../components/SEO";
+let backgroundColor = { r: 255, g: 255, b: 255 };
 
-const IndexPage = () => {
+const Index = () => {
     const [dotsData, setDotsData] = useState(0);
     const [elmHeight, setElmHeight] = useState(0);
     const [colorsNum, setColorsNum] = useState(0);
     const d = GetDotsData();
     const c = GetColorSchemes();
-    let backgroundColor = {r:255,g:255,b:255};
 
     const scrollEvent = new CustomEvent("scrollback");
 
@@ -41,45 +42,48 @@ const IndexPage = () => {
         }
     };
 
-
     useEffect(() => {
         let ignore = false;
         if (!ignore) {
-            console.log("[color]",colorsNum);
-            backgroundColor = c.colorSchemesJson.colors[colorsNum].background
-            document.body.style.backgroundColor = `rgb(${backgroundColor.r},${backgroundColor.g},${backgroundColor.b})`;
+            console.log("[color]", colorsNum);
+            backgroundColor = c.colorSchemesJson.colors[colorsNum].background;
+            if (typeof document !== "undefined") {
+                document.body.style.backgroundColor = `rgb(${backgroundColor.r},${backgroundColor.g},${backgroundColor.b})`;
+            }
         }
         return () => {
             ignore = true;
         };
     }, [colorsNum]);
 
-
     return (
         <>
             <Sketch dotsData={dotsData} setColorsNum={setColorsNum} />
-            <Global style={css`
-                background-color: rgb(
-                    ${backgroundColor.r},
-                    ${backgroundColor.g},
-                    ${backgroundColor.b}
-                );
-            `} />
-            <ExhibitionDetail setElmHeight={setElmHeight}/>
-            <ExhibitionDetail setElmHeight={setElmHeight}/>
-            <ExhibitionDetail setElmHeight={setElmHeight}/>
-            <ExhibitionDetail setElmHeight={setElmHeight}/>
-            <ExhibitionDetail setElmHeight={setElmHeight}/>
-            <ExhibitionDetail setElmHeight={setElmHeight}/>
+            <Global
+                style={css`
+                    background-color: rgb(
+                        ${backgroundColor.r},
+                        ${backgroundColor.g},
+                        ${backgroundColor.b}
+                    );
+                `}
+            />
+            <ExhibitionDetail setElmHeight={setElmHeight} />
+            <ExhibitionDetail setElmHeight={setElmHeight} />
+            <ExhibitionDetail setElmHeight={setElmHeight} />
+            <ExhibitionDetail setElmHeight={setElmHeight} />
+            <ExhibitionDetail setElmHeight={setElmHeight} />
+            <ExhibitionDetail setElmHeight={setElmHeight} />
         </>
     );
 };
 
-export default IndexPage;
+export default Index;
 
-export const Head = () => {
-    <>
-        <meta name="robots" content="noindex" />
-        <title>Home Page</title>;
-    </>;
-};
+export function Head() {
+    return (
+        <>
+            <SEO />
+        </>
+    );
+}
