@@ -102,7 +102,7 @@ export default function Sketch(props) {
             let scale = 1;
             q5.translate(q5.width / 2, q5.height / 2);
             if (q5.width < q5.height) {
-                scale = dotsScaleValue / 1.22;
+                scale = dotsScaleValue / 1.2;
             } else {
                 scale = dotsScaleValue / 1.3;
             }

@@ -17,7 +17,10 @@ export default function Text() {
                             coming soon...
                         </p>
                     </section>
-                    <section>
+                    <section css={css`
+                            z-index: 999999999 !important;
+                            position: sticky;
+                        `}>
                         <p>
                             多摩美術大学
                             <br />
@@ -28,7 +31,9 @@ export default function Text() {
                     </section>
                     <section
                         css={css`
-                            margin-bottom: 5.2vh !important
+                            margin-bottom: 5.2vh !important;
+                            z-index: 999999999 !important;
+                            position: sticky;
                         `}
                     >
                         <p>
