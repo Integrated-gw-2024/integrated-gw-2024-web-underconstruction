@@ -67,12 +67,12 @@ const Index = () => {
                     );
                 `}
             />
-            <ExhibitionDetail setElmHeight={setElmHeight} />
-            <ExhibitionDetail setElmHeight={setElmHeight} />
-            <ExhibitionDetail setElmHeight={setElmHeight} />
-            <ExhibitionDetail setElmHeight={setElmHeight} />
-            <ExhibitionDetail setElmHeight={setElmHeight} />
-            <ExhibitionDetail setElmHeight={setElmHeight} />
+            <ExhibitionDetail setElmHeight={setElmHeight}/>
+            <ExhibitionDetail />
+            <ExhibitionDetail />
+            <ExhibitionDetail />
+            <ExhibitionDetail />
+            <ExhibitionDetail />
         </>
     );
 };
@@ -82,7 +82,10 @@ export default Index;
 export function Head() {
     return (
         <>
-            <link rel="stylesheet" href={`https://use.typekit.net/${process.env.ADOBE_FONTS_PROJECT_ID}.css`} />
+            <link
+                rel="stylesheet"
+                href={`https://use.typekit.net/${process.env.ADOBE_FONTS_PROJECT_ID}.css`}
+            />
             <style>
                 {`
                 body {font-family: "tt-commons-pro", "游ゴシック体", YuGothic, "游ゴシック", "Yu Gothic", sans-serif;}
