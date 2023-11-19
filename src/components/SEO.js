@@ -39,7 +39,7 @@ function SEO({ title, desc, lang, type, image, twID }) {
             <title>{seo.title}</title>
             <link rel="icon" href={seo.favicon.svg} type="image/svg+xml"/>
             <link rel="icon" href={seo.favicon.ico} type="image/vnd.microsoft.icon"/>
-            <meta http-equiv="Content-Language" content={seo.lang} />
+            <meta httpEquiv="Content-Language" content={seo.lang} />
             <meta name="description" content={seo.desc} />
             <meta property="og:title" content={seo.ogTitle} />
             <meta property="og:site_name" content={seo.siteName} />
