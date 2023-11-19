@@ -100,7 +100,10 @@
 
     .archiveLink {
         a {
-            padding: 6px;
+            padding: 4px;
+            @include mq.Width("s"){
+                padding: 6px;
+            }
         }
     }
 
